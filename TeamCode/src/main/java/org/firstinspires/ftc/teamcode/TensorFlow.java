@@ -50,7 +50,7 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@Autonomous(name = "Concept: TensorFlow Object Detection", group = "Autonomous")
+@Autonomous(name = "TensorFlow Ring Detection", group = "Autonomous")
 //S@Disabled
 public class TensorFlow extends LinearOpMode {
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
@@ -106,14 +106,14 @@ public class TensorFlow extends LinearOpMode {
             // (typically 1.78 or 16/9).
 
             // Uncomment the following line if you want to adjust the magnification and/or the aspect ratio of the input images.
-            //tfod.setZoom(2.5, 1.78);
+            tfod.setZoom(2.5, 1.78);
         }
 
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
         waitForStart();
-
+/*
         if (opModeIsActive()) {
             while (opModeIsActive()) {
                 if (tfod != null) {
@@ -132,6 +132,69 @@ public class TensorFlow extends LinearOpMode {
                             telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
                                     recognition.getRight(), recognition.getBottom());
                         }
+                        telemetry.update();
+                    }
+                }
+            }
+        }
+*/
+        if (opModeIsActive()) {
+            while (opModeIsActive()) {
+                if (tfod != null) {
+                    //String TargetZoneTensor = "A";
+                    String TargetZoneHeight = "A";
+                    // getUpdatedRecognitions() will return null if no new information is available since
+                    // the last time that call was made.
+                    List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+
+                    if (updatedRecognitions != null) {
+                        telemetry.addData("# Object Detected", updatedRecognitions.size());
+                        if (updatedRecognitions.size() == 0 ) {
+                            // empty list.  no objects recognized.
+
+                            telemetry.addData("TFOD", "No items detected.");
+                        } else {
+                            // list is not empty.
+                            // step through the list of recognitions and display boundary info.
+                            int i = 0;
+                            for (Recognition recognition : updatedRecognitions) {
+                                /*
+                                Uncomment past line 163, as well as line 144 and 196 to get back TensorFlow Type determination.
+                                telemetry.addData(String.format("Type (TensorFlow) (%d)", i), recognition.getLabel());
+                                telemetry.addData(String.format("  left,top (%d)", i), "%.03f , %.03f",
+                                        recognition.getLeft(), recognition.getTop());
+                                telemetry.addData(String.format("  right,bottom (%d)", i), "%.03f , %.03f",
+                                        recognition.getRight(), recognition.getBottom());
+
+
+
+                                check label to see which target zone to go after.
+                                if (recognition.getLabel().equals("Single")) {
+                                    TargetZoneTensor = "B";
+                                } else if (recognition.getLabel().equals("Quad")) {
+                                    TargetZoneTensor = "C";
+                                } else {
+                                    TargetZoneTensor = "U";
+                                }
+                                */
+                                /*
+                                * I chose the height in this way because
+                                * 53 px: Single
+                                * 138 px: Quad
+                                * So 100 px is a good number to choose between the two.
+                                 */
+                                if (recognition.getHeight() > 100){
+                                    TargetZoneHeight = "C";
+                                }else{
+
+                                    TargetZoneHeight = "B";
+                                }
+                                telemetry.addData("Height", recognition.getHeight());
+                            }
+
+                        }
+                        //telemetry.addData("Target Zone (Tensor)", TargetZoneTensor);
+                        telemetry.addData("Target Zone (Height)", TargetZoneHeight);
                         telemetry.update();
                     }
                 }

@@ -42,53 +42,52 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove a @Disabled the on the next line or two (if present) to add this opmode to the Driver Station OpMode list,
  * or add a @Disabled annotation to prevent this OpMode from being added to the Driver Station
  */
-@TeleOp
+@TeleOp(name = "Mechanum Drive B", group = "Mechanum")
 public class MechanumDrive extends LinearOpMode {
 //    private Blinker expansion_Hub_2;
     private DcMotor backLeft;
     private DcMotor backRight;
     private DcMotor frontLeft;
     private DcMotor frontRight;
-//    private DcMotor armMotor;
-//    private DcMotor intakeLeft;
-//    private DcMotor intakeRight;
-//    private Servo miniArm;
-//    private Servo frontServo;
-//    private Servo backServo;
-//    private CRServo armServo;
+    private Servo Finger;
+    private DcMotor Shooter;
+    private DcMotor Intake;
+
     private BNO055IMU imu;
     private ElapsedTime runtime = new ElapsedTime();
     private final double sensitivity = 1;
 //    private double intakePower;
     @Override
     public void runOpMode() {
+        // the Zachary from 3/4/21 thinks that this is DENSE code
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
-//        armMotor = hardwareMap.get(DcMotor.class, "armMotor");
-//        frontServo = hardwareMap.get(Servo.class, "frontServo");
-//        backServo = hardwareMap.get(Servo.class, "backServo");
-//        intakeLeft = hardwareMap.get(DcMotor.class, "intakeLeft");
-//        intakeRight = hardwareMap.get(DcMotor.class, "intakeRight");
-//        miniArm = hardwareMap.get(Servo.class, "Mini Arm");
-//        armServo = hardwareMap.get(CRServo.class, "armServo");
-//        armMotor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
-//        int movingArm = 0;
-//        int armPosition = armMotor.getCurrentPosition();
-//        armMotor.setTargetPosition(armPosition);
-//        armMotor.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        servo = hardwareMap.get(Servo.class, "Finger");
+        shooter = hardwareMap.get(DcMotor.class, "Shooter");
+        intake = hardwareMap.get(DcMotor.class, "Intake");
+
+        // Wait for the start button
+        telemetry.addData(">", "Press Start to (insert neat movie reference here)." );
+        telemetry.update();
+        waitForStart();
+
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.mode = BNO055IMU.SensorMode.IMU;
         parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.loggingEnabled = false;
+
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         imu.initialize(parameters);
+
         while (!isStopRequested() && !imu.isGyroCalibrated()) {
             sleep(50);
             idle();
         }
+
         telemetry.addData("imu calib status", imu.getCalibrationStatus().toString());
         telemetry.addData("Status", "Initialized");
         telemetry.update();
@@ -134,6 +133,45 @@ public class MechanumDrive extends LinearOpMode {
             backRight.setPower(rearRightPower);
             frontLeft.setPower(frontLeftPower);
             frontRight.setPower(frontRightPower);
+
+
+            // slew the servo, according to the rampUp (direction) variable.
+            if (gamepad1.a) {
+                // Keep stepping up until we hit the max value.
+                position += ServoIncrement;
+                if (position >= MAX_POS ) {
+                    position = MAX_POS;
+                }
+            }
+            else if (gamepad1.b) {
+
+                // Keep stepping down until we hit the min value.
+                position -= ServoIncrement;
+                if (position <= MIN_POS ) {
+                    position = MIN_POS;
+                }
+            }
+
+            power += MOTOR_INCREMENT ;
+            if (power <= MAX_REV ) {
+                power = MAX_REV;
+                rampUp = !rampUp;  // Switch ramp direction
+            }
+
+
+            // Display the current value
+            telemetry.addData("Motor Power", "%5.2f", power);
+            // Display the current value
+            telemetry.addData("Servo Position", "%5.2f", position);
+            telemetry.addData(">", "Press Stop to end test." );
+            telemetry.update();
+
+            // Set the servo to the new position and pause;
+            servo.setPosition(position);
+            shooter.setPower(power);
+            intake.setPower(-power);
+            sleep(CycleMS);
+            idle();
 // this part of the code controls the arm.
 // we subtract the left trigger from the right because
 // we want to have the right trigger go backwards.
