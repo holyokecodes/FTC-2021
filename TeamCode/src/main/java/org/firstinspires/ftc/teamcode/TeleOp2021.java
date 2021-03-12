@@ -42,32 +42,50 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove a @Disabled the on the next line or two (if present) to add this opmode to the Driver Station OpMode list,
  * or add a @Disabled annotation to prevent this OpMode from being added to the Driver Station
  */
-@TeleOp(name = "Mechanum Drive B", group = "Mechanum")
-public class MechanumDrive extends LinearOpMode {
+@TeleOp(name = "Tele-op 2021")
+public class TeleOp2021 extends LinearOpMode {
 //    private Blinker expansion_Hub_2;
     private DcMotor backLeft;
     private DcMotor backRight;
     private DcMotor frontLeft;
     private DcMotor frontRight;
-    private Servo Finger;
-    private DcMotor Shooter;
-    private DcMotor Intake;
+    private Servo finger;
+    private DcMotor shooter;
+    private DcMotor intake;
 
     private BNO055IMU imu;
     private ElapsedTime runtime = new ElapsedTime();
     private final double sensitivity = 1;
-//    private double intakePower;
+
+    static final double ServoIncrement   =  0.075; // amount to slew servo each CYCLE_MS cycle
+    static final int    CycleMS    = 50;     // period of each cycle
+    static final double MAX_POS     =  0.6;   // Maximum rotational position
+    static final double MIN_POS     =  0.3;   // Minimum rotational position
+    static final double MOTOR_INCREMENT   = 0.04;     // amount to ramp motor each CYCLE_MS cycle
+    static final int    CYCLE_MS    =   50;     // period of each cycle
+    static final double MAX_FWD     =  1.0;     // Maximum FWD power applied to motor
+    static final double MAX_REV     = -1.0;     // Maximum REV power applied to motor
+
+    // Define class members
+    double  power   = 0;
+    boolean rampUp  = true;
+
+    // Define class members
+    double  position = 0.3; // Starting position
+
+    //    private double intakePower;
     @Override
     public void runOpMode() {
-        // the Zachary from 3/4/21 thinks that this is DENSE code
         backLeft = hardwareMap.get(DcMotor.class, "backLeft");
         backRight = hardwareMap.get(DcMotor.class, "backRight");
         frontLeft = hardwareMap.get(DcMotor.class, "frontLeft");
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
 
-        servo = hardwareMap.get(Servo.class, "Finger");
+        finger = hardwareMap.get(Servo.class, "Finger");
         shooter = hardwareMap.get(DcMotor.class, "Shooter");
         intake = hardwareMap.get(DcMotor.class, "Intake");
+
+        boolean shooterOn = false;
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to (insert neat movie reference here)." );
@@ -101,11 +119,12 @@ public class MechanumDrive extends LinearOpMode {
             double clockwise = gamepad1.right_stick_x;
             clockwise *= sensitivity;
             //this part of the code controls the mechanum drive
-            double theta = angles.firstAngle * Math.PI/180;
+            double theta = 0;
+            telemetry.addData("Theta", Double.toString(theta));
             //double theta = 0;
-            double temp = forward * Math.cos(theta) + right * Math.sin(theta);
-            right = forward * Math.sin(theta) - right * Math.cos(theta);
-            forward = temp;
+            double temp = forward * Math.sin(theta) + right * Math.cos(theta);
+            right = forward * Math.cos(theta) - right * Math.sin(theta);
+            forward = -temp;
             //right -= .005;
             double frontLeftPower = -forward - clockwise - right;
             double frontRightPower = forward - clockwise - right;
@@ -135,15 +154,15 @@ public class MechanumDrive extends LinearOpMode {
             frontRight.setPower(frontRightPower);
 
 
-            // slew the servo, according to the rampUp (direction) variable.
-            if (gamepad1.a) {
+            // slew the servo, according to the rampUp (direction) variable
+            if (gamepad2.a) {
                 // Keep stepping up until we hit the max value.
                 position += ServoIncrement;
                 if (position >= MAX_POS ) {
                     position = MAX_POS;
                 }
             }
-            else if (gamepad1.b) {
+            else if (gamepad2.b) {
 
                 // Keep stepping down until we hit the min value.
                 position -= ServoIncrement;
@@ -157,73 +176,26 @@ public class MechanumDrive extends LinearOpMode {
                 power = MAX_REV;
                 rampUp = !rampUp;  // Switch ramp direction
             }
-
-
-            // Display the current value
+            // if you hit the x button, invert the state of the shooter.
+            if (gamepad2.x){
+                shooterOn = !shooterOn;
+            }
+            // Display the current values
             telemetry.addData("Motor Power", "%5.2f", power);
-            // Display the current value
             telemetry.addData("Servo Position", "%5.2f", position);
-            telemetry.addData(">", "Press Stop to end test." );
             telemetry.update();
 
             // Set the servo to the new position and pause;
-            servo.setPosition(position);
-            shooter.setPower(power);
+            finger.setPosition(position);
+            if (shooterOn){
+                shooter.setPower(power);
+            }else{
+                shooter.setPower(0);
+            }
             intake.setPower(-power);
             sleep(CycleMS);
             idle();
-// this part of the code controls the arm.
-// we subtract the left trigger from the right because
-// we want to have the right trigger go backwards.
-// the gamepad.left-gamepad.right_trigger float is being multiplied by 25,
-// the power we want the motor to be at full depression.
-//            armPosition+=25*(gamepad2.left_trigger-gamepad2.right_trigger);
-// we add gamepad.left_trigger to gamepad.right_trigger.
-//            armMotor.setPower(.25);
-//            telemetry.addData("armPosition: ", armPosition);
-//            armMotor.setTargetPosition(armPosition);
-// This is a ternary operator, which is
-// a statment true/false input that returns
-// a value based on the true/false input.
-// In this case, if you hit a, we return
-// 1. If not, if b is pressed return -1,
-// otherwise, return 0.
-//            intakePower = gamepad2.a ? 0.75 : gamepad2.b ? -0.75 : 0.0;
-//            intakeLeft.setPower(-intakePower);
-//            intakeRight.setPower(intakePower);
-//            int moving = 0;
-//            if (gamepad2.x){
-////                miniArm.setPosition(1);
-//            } else if (gamepad2.y){
-//                miniArm.setPosition(0.4);
-//            }
-//            if(gamepad2.right_bumper) {
-////                frontServo.setPosition(.2);
-////                backServo.setPosition(.15);
-//            }else if (gamepad2.left_bumper) {
-////                frontServo.setPosition(.05);
-////                backServo.setPosition(.3);
-//            }
-//            if(gamepad2.dpad_up) {
-////                armServo.setPower(1);
-//            }else if(gamepad2.dpad_down) {
-////                armServo.setPower(-1);
-//            }else if(gamepad2.dpad_left){
-//                if(movingArm != -1){
-//                    runtime.reset();
-//                    movingArm = -1;
-//                }
-//            } else if(gamepad2.dpad_right) {
-//                if(movingArm != 1){
-//                    runtime.reset();
-//                    movingArm = 1;
-//                }
-//            } else {
-//                if ( runtime.seconds() > 0.5){
-//                    movingArm = 0;
-//                }
-//            }
-//            armServo.setPower(movingArm);
+
             telemetry.addData("Status", "Running");
             telemetry.addData("angle", angles.firstAngle);
             telemetry.update();
