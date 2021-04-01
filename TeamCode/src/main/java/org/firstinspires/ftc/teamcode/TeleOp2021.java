@@ -58,6 +58,7 @@ public class TeleOp2021 extends LinearOpMode {
     private final double sensitivity = 1;
 
     static final double ServoIncrement   =  0.075; // amount to slew servo each CYCLE_MS cycle
+    // Maybe make this higher
     static final int    CycleMS    = 50;     // period of each cycle
     static final double MAX_POS     =  0.6;   // Maximum rotational position
     static final double MIN_POS     =  0.3;   // Minimum rotational position
@@ -113,6 +114,11 @@ public class TeleOp2021 extends LinearOpMode {
         waitForStart();
         // run until the end of the match (driver presses STOP)
         while (opModeIsActive()) {
+            double speedMultiplier = 1; //Multiplier for precision mode.
+            if (gamepad1.right_trigger > 0.5){
+                speedMultiplier = 0.5;
+            }
+
             Orientation angles=imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX, AngleUnit.DEGREES);
             double forward = -gamepad1.left_stick_y;
             double right  =  -gamepad1.left_stick_x;
@@ -148,10 +154,10 @@ public class TeleOp2021 extends LinearOpMode {
                 rearLeftPower /= max;
                 rearRightPower /= max;
             }
-            backLeft.setPower(rearLeftPower);
-            backRight.setPower(rearRightPower);
-            frontLeft.setPower(frontLeftPower);
-            frontRight.setPower(frontRightPower);
+            backLeft.setPower(rearLeftPower * speedMultiplier);
+            backRight.setPower(rearRightPower * speedMultiplier);
+            frontLeft.setPower(frontLeftPower * speedMultiplier);
+            frontRight.setPower(frontRightPower * speedMultiplier);
 
 
             // slew the servo, according to the rampUp (direction) variable
