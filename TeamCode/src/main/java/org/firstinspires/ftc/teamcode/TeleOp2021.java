@@ -74,6 +74,8 @@ public class TeleOp2021 extends LinearOpMode {
     // Define class members
     double  position = 0.3; // Starting position
 
+    float joystickDeadzone = 0.1f;
+
     //    private double intakePower;
     @Override
     public void runOpMode() {
@@ -91,6 +93,9 @@ public class TeleOp2021 extends LinearOpMode {
         // Wait for the start button
         telemetry.addData(">", "Press Start to (insert neat movie reference here)." );
         telemetry.update();
+
+        gamepad1.setJoystickDeadzone(joystickDeadzone);
+
         waitForStart();
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
