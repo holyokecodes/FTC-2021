@@ -122,6 +122,9 @@ public class TeleOp2021 extends LinearOpMode {
             double speedMultiplier = 1; //Multiplier for precision mode.
             if (gamepad1.right_trigger > 0.5){
                 speedMultiplier = 0.5;
+                telemetry.addData("Pesise Mode", "On");
+            } else {
+                telemetry.addData("Pesise Mode", "Off");
             }
 
             Orientation angles=imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX, AngleUnit.DEGREES);
@@ -203,7 +206,7 @@ public class TeleOp2021 extends LinearOpMode {
             }else{
                 shooter.setPower(0);
             }
-            intake.setPower(-power);
+            intake.setPower(0);//power);
             sleep(CycleMS);
             idle();
 
