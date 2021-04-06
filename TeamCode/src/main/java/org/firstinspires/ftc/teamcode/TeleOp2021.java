@@ -91,7 +91,7 @@ public class TeleOp2021 extends LinearOpMode {
         boolean shooterOn = false;
 
         // Wait for the start button
-        telemetry.addData(">", "Press Start to (insert neat movie reference here)." );
+        telemetry.addData(">", "Press Start to have a call to adventure." );
         telemetry.update();
 
         gamepad1.setJoystickDeadzone(joystickDeadzone);
@@ -126,6 +126,7 @@ public class TeleOp2021 extends LinearOpMode {
             } else {
                 telemetry.addData("Pesise Mode", "Off");
             }
+            telemetry.update();
 
             Orientation angles=imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX, AngleUnit.DEGREES);
             double forward = -gamepad1.left_stick_y;
