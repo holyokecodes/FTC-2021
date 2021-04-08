@@ -240,21 +240,24 @@ public class TeleOp2021 extends LinearOpMode {
 
     public void checkButtons() {
         shooterButton = gamepad2.x;
-        telemetry.addData("Current Shooter:", shooterButton);
-        telemetry.addData("Previous Shooter:", shooterButtonBefore);
+        telemetry.addData("Current Shooter", shooterButton);
+        telemetry.addData("Previous Shooter", shooterButtonBefore);
+        telemetry.addData("Shooter", shooterOn);
         if (shooterOn && !shooterButtonBefore){
             shooterOn = !shooterOn;
         }
 
-        telemetry.addData("Current Intake:", shooterButton);
-        telemetry.addData("Previous Intake:", shooterButtonBefore);
+        telemetry.addData("Current Intake", intakeButton);
+        telemetry.addData("Previous Intake", intakeButtonBefore);
+        telemetry.addData("Intake", intakeOn);
         intakeButton = gamepad1.left_trigger > 0.5;
         if (intakeOn && !intakeButtonBefore){
             intakeOn = !intakeOn;
         }
 
-        telemetry.addData("Current Finger:", shooterButton);
-        telemetry.addData("Previous Finger:", shooterButtonBefore);
+        telemetry.addData("Current Finger", fingerButton);
+        telemetry.addData("Previous Finger", fingerButtonBefore);
+        telemetry.addData("Finger State", fingerState);
         fingerButton = gamepad2.a;
         if (fingerButton && !fingerButtonBefore && fingerState == 0){
             fingerState = 1;
