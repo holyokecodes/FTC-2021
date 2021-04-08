@@ -195,7 +195,7 @@ public class TeleOp2021 extends LinearOpMode {
                 position -= ServoIncrement;
                 if (position <= MIN_POS ) {
                     position = MIN_POS;
-                    fingerState = 3;
+                    fingerState = 0;
                 }
             }
 
