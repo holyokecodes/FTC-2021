@@ -137,7 +137,6 @@ public class TeleOp2021 extends LinearOpMode {
             } else {
                 telemetry.addData("Pesise Mode", "Off");
             }
-            telemetry.update();
 
             Orientation angles=imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX, AngleUnit.DEGREES);
             double forward = -gamepad1.left_stick_y;
@@ -179,6 +178,7 @@ public class TeleOp2021 extends LinearOpMode {
             frontLeft.setPower(frontLeftPower * speedMultiplier);
             frontRight.setPower(frontRightPower * speedMultiplier);
 
+            checkButtons();
 
             // slew the servo, according to the rampUp (direction) variable
             if (fingerState == 1) {
@@ -215,12 +215,9 @@ public class TeleOp2021 extends LinearOpMode {
             // Display the current values
             telemetry.addData("Motor Power", "%5.2f", power);
             telemetry.addData("Servo Position", "%5.2f", position);
-            telemetry.update();
 
             // Set the servo to the new position and pause;
             finger.setPosition(position);
-
-            checkButtons();
 
             if (shooterOn){
                 shooter.setPower(power);
@@ -243,17 +240,21 @@ public class TeleOp2021 extends LinearOpMode {
 
     public void checkButtons() {
         shooterButton = gamepad2.x;
+        telemetry.addData("Current Shooter:", shooterButton);
+        telemetry.addData("Previous Shooter:", shooterButtonBefore);
         if (shooterOn && !shooterButtonBefore){
             shooterOn = !shooterOn;
         }
-        shooterButtonBefore = shooterButton;
 
+        telemetry.addData("Current Intake:", shooterButton);
+        telemetry.addData("Previous Intake:", shooterButtonBefore);
         intakeButton = gamepad1.left_trigger > 0.5;
         if (intakeOn && !intakeButtonBefore){
             intakeOn = !intakeOn;
         }
-        intakeButtonBefore = intakeButton;
 
+        telemetry.addData("Current Finger:", shooterButton);
+        telemetry.addData("Previous Finger:", shooterButtonBefore);
         fingerButton = gamepad2.a;
         if (fingerButton && !fingerButtonBefore && fingerState == 0){
             fingerState = 1;
