@@ -76,6 +76,19 @@ public class TeleOp2021 extends LinearOpMode {
 
     float joystickDeadzone = 0.1f;
 
+    boolean shooterOn = false;
+    boolean shooterButton = false;
+    boolean shooterButtonBefore = false;
+
+    boolean intakeOn = false;
+    boolean intakeButton = false;
+    boolean intakeButtonBefore = false;
+
+    int fingerState = 1;
+
+    boolean fingerButton;
+    boolean fingerButtonBefore;
+
     //    private double intakePower;
     @Override
     public void runOpMode() {
@@ -87,8 +100,6 @@ public class TeleOp2021 extends LinearOpMode {
         finger = hardwareMap.get(Servo.class, "Finger");
         shooter = hardwareMap.get(DcMotor.class, "Shooter");
         intake = hardwareMap.get(DcMotor.class, "Intake");
-
-        boolean shooterOn = false;
 
         // Wait for the start button
         telemetry.addData(">", "Press Start to have a call to adventure." );
@@ -170,19 +181,21 @@ public class TeleOp2021 extends LinearOpMode {
 
 
             // slew the servo, according to the rampUp (direction) variable
-            if (gamepad2.a) {
+            if (fingerState == 1) {
                 // Keep stepping up until we hit the max value.
                 position += ServoIncrement;
                 if (position >= MAX_POS ) {
                     position = MAX_POS;
+                    fingerState = 2;
                 }
             }
-            else if (gamepad2.b) {
+            else if (fingerState == 2) {
 
                 // Keep stepping down until we hit the min value.
                 position -= ServoIncrement;
                 if (position <= MIN_POS ) {
                     position = MIN_POS;
+                    fingerState = 3;
                 }
             }
 
@@ -192,9 +205,13 @@ public class TeleOp2021 extends LinearOpMode {
                 rampUp = !rampUp;  // Switch ramp direction
             }
             // if you hit the x button, invert the state of the shooter.
-            if (gamepad2.x){
+            /*if (gamepad2.x){
                 shooterOn = !shooterOn;
             }
+
+            if (gamepad1.left_trigger < 0.5f){
+                shooterOn = !shooterOn;
+            }*/
             // Display the current values
             telemetry.addData("Motor Power", "%5.2f", power);
             telemetry.addData("Servo Position", "%5.2f", position);
@@ -202,12 +219,19 @@ public class TeleOp2021 extends LinearOpMode {
 
             // Set the servo to the new position and pause;
             finger.setPosition(position);
+
+            checkButtons();
+
             if (shooterOn){
                 shooter.setPower(power);
-            }else{
+            } else {
                 shooter.setPower(0);
             }
-            intake.setPower(0);//power);
+            if (intakeOn){
+                intake.setPower(power);
+            } else {
+                intake.setPower(0);
+            }
             sleep(CycleMS);
             idle();
 
@@ -215,5 +239,25 @@ public class TeleOp2021 extends LinearOpMode {
             telemetry.addData("angle", angles.firstAngle);
             telemetry.update();
         }
+    }
+
+    public void checkButtons() {
+        shooterButton = gamepad2.x;
+        if (shooterOn && !shooterButtonBefore){
+            shooterOn = !shooterOn;
+        }
+        shooterButtonBefore = shooterButton;
+
+        intakeButton = gamepad1.left_trigger > 0.5;
+        if (intakeOn && !intakeButtonBefore){
+            intakeOn = !intakeOn;
+        }
+        intakeButtonBefore = intakeButton;
+
+        fingerButton = gamepad2.a;
+        if (fingerButton && !fingerButtonBefore && fingerState == 0){
+            fingerState = 1;
+        }
+        fingerButtonBefore = fingerButton;
     }
 }
