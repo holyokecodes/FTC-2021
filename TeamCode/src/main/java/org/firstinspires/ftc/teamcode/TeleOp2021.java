@@ -263,5 +263,7 @@ public class TeleOp2021 extends LinearOpMode {
             fingerState = 1;
         }
         fingerButtonBefore = fingerButton;
+        intakeButtonBefore = intakeButton;
+        shooterButtonBefore = shooterButton;
     }
 }
