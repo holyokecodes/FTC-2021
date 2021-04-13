@@ -140,16 +140,16 @@ public class TeleOp2021 extends LinearOpMode {
 
             Orientation angles=imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX, AngleUnit.DEGREES);
             double forward = -gamepad1.left_stick_y;
-            double right  =  -gamepad1.left_stick_x;
+            double right  =  gamepad1.left_stick_x;
             double clockwise = gamepad1.right_stick_x;
             clockwise *= sensitivity;
             //this part of the code controls the mechanum drive
             double theta = angles.firstAngle * Math.PI/180;
             telemetry.addData("Theta", Double.toString(theta));
 
-//            double temp = forward * Math.sin(theta) + right * Math.cos(theta);
+            double temp = forward * Math.sin(theta) + right * Math.cos(theta);
 //            double temp = forward * Math.cos(theta) - right * Math.sin(theta);
-            double temp = forward * Math.sin(theta) - right * Math.cos(theta);
+//            double temp = forward * Math.sin(theta) - right * Math.cos(theta);
             right = forward * Math.cos(theta) - right * Math.sin(theta);
             forward = -temp;
             //right -= .005;
