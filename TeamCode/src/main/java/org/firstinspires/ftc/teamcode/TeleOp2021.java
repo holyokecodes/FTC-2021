@@ -144,9 +144,9 @@ public class TeleOp2021 extends LinearOpMode {
             double clockwise = gamepad1.right_stick_x;
             clockwise *= sensitivity;
             //this part of the code controls the mechanum drive
-            double theta = 0;
+            double theta = angles.firstAngle * Math.PI/180;
             telemetry.addData("Theta", Double.toString(theta));
-            //double theta = 0;
+            
             double temp = forward * Math.sin(theta) + right * Math.cos(theta);
             right = forward * Math.cos(theta) - right * Math.sin(theta);
             forward = -temp;
