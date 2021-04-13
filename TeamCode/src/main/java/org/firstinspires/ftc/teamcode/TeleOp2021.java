@@ -148,7 +148,8 @@ public class TeleOp2021 extends LinearOpMode {
             telemetry.addData("Theta", Double.toString(theta));
 
 //            double temp = forward * Math.sin(theta) + right * Math.cos(theta);
-            double temp = forward * Math.cos(theta) + right * Math.sin(theta);
+//            double temp = forward * Math.cos(theta) - right * Math.sin(theta);
+            double temp = forward * Math.sin(theta) - right * Math.cos(theta);
             right = forward * Math.cos(theta) - right * Math.sin(theta);
             forward = -temp;
             //right -= .005;
