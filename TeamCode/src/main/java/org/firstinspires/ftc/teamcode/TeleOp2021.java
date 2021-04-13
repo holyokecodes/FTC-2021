@@ -199,6 +199,11 @@ public class TeleOp2021 extends LinearOpMode {
                 }
             }
 
+            if (fingerState == 0) telemetry.addData("Finger State", "Idle");
+            else if (fingerState == 1) telemetry.addData("Finger State","Extending...");
+            else if (fingerState == 2) telemetry.addData("Finger State","Retracting...");
+            else telemetry.addData("Finger State","[EERRRROORR]");
+
             power += MOTOR_INCREMENT ;
             if (power <= MAX_REV ) {
                 power = MAX_REV;
@@ -225,7 +230,7 @@ public class TeleOp2021 extends LinearOpMode {
                 shooter.setPower(0);
             }
             if (intakeOn){
-                intake.setPower(power);
+                intake.setPower(-power);
             } else {
                 intake.setPower(0);
             }
@@ -244,24 +249,24 @@ public class TeleOp2021 extends LinearOpMode {
         if (shooterButton && !shooterButtonBefore){
             shooterOn = !shooterOn;
         }
-        telemetry.addData("Current Shooter", shooterButton);
-        telemetry.addData("Previous Shooter", shooterButtonBefore);
+        /*telemetry.addData("Current Shooter", shooterButton);
+        telemetry.addData("Previous Shooter", shooterButtonBefore);*/
         telemetry.addData("Shooter", shooterOn);
 
         intakeButton = gamepad1.left_trigger > 0.5;
         if (intakeButton && !intakeButtonBefore){
             intakeOn = !intakeOn;
         }
-        telemetry.addData("Current Intake", intakeButton);
-        telemetry.addData("Previous Intake", intakeButtonBefore);
+        /*telemetry.addData("Current Intake", intakeButton);
+        telemetry.addData("Previous Intake", intakeButtonBefore);*/
         telemetry.addData("Intake", intakeOn);
 
         fingerButton = gamepad2.a;
         if (fingerButton && !fingerButtonBefore && fingerState == 0){
             fingerState = 1;
         }
-        telemetry.addData("Current Finger", fingerButton);
-        telemetry.addData("Previous Finger", fingerButtonBefore);
+        /*telemetry.addData("Current Finger", fingerButton);
+        telemetry.addData("Previous Finger", fingerButtonBefore);*/
         telemetry.addData("Finger State", fingerState);
 
         fingerButtonBefore = fingerButton;
