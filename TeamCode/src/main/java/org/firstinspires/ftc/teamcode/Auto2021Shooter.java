@@ -58,7 +58,7 @@ public class Auto2021Shooter extends LinearOpMode{
     DcMotor shooter;
     Servo finger;
 
-    private Pose2d start = new Pose2d(0, 0, Math.toRadians(90);
+    private Pose2d start = new Pose2d(0, 0, Math.toRadians(90));
 
     @Override
     public void runOpMode(){
