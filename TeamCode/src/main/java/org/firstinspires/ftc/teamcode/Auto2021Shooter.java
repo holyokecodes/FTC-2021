@@ -58,6 +58,8 @@ public class Auto2021Shooter extends LinearOpMode{
     DcMotor shooter;
     Servo finger;
 
+    private Pose2d start = new Pose2d(0, 0, Math.toRadians(90);
+
     @Override
     public void runOpMode(){
         SampleMecanumDrive drivetrain = new SampleMecanumDrive(hardwareMap);
@@ -98,25 +100,25 @@ public class Auto2021Shooter extends LinearOpMode{
         String TargetZone="A";
         if (opModeIsActive()) {
 
-            Trajectory ATrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, Math.toRadians(160)))
+            Trajectory ATrajectory = drivetrain.trajectoryBuilder(start)
                     .strafeTo(new Vector2d(60, 16))
                     .build();
-            Trajectory BTrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, Math.toRadians(160)))
+            Trajectory BTrajectory = drivetrain.trajectoryBuilder(start)
                     .strafeTo(new Vector2d(85, 16))
                     .build();
-            Trajectory CTrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, Math.toRadians(160)))
+            Trajectory CTrajectory = drivetrain.trajectoryBuilder(start)
                     .strafeTo(new Vector2d(101, 18))
                     .build();
-            Trajectory AReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, Math.toRadians(160)))
+            Trajectory AReturnTrajectory = drivetrain.trajectoryBuilder(start)
                     .strafeTo(new Vector2d(12, -9))
                     .build();
-            Trajectory BReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, Math.toRadians(160)))
+            Trajectory BReturnTrajectory = drivetrain.trajectoryBuilder(start)
                     .strafeTo(new Vector2d(-39, 0))
                     .build();
-            Trajectory CReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, Math.toRadians(160)))
+            Trajectory CReturnTrajectory = drivetrain.trajectoryBuilder(start)
                     .strafeTo(new Vector2d(-68, -18))
                     .build();
-            Trajectory EndTrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, Math.toRadians(160)))
+            Trajectory EndTrajectory = drivetrain.trajectoryBuilder(start)
                     .strafeTo(new Vector2d(12, 0))
                     .build();
 
