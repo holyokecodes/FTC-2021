@@ -109,17 +109,19 @@ public class Auto2021Shooter extends LinearOpMode{
             Trajectory CTrajectory = drivetrain.trajectoryBuilder(start)
                     .strafeTo(new Vector2d(101, 18))
                     .build();
+
             Trajectory AReturnTrajectory = drivetrain.trajectoryBuilder(start)
-                    .strafeTo(new Vector2d(12, -9))
+                    .strafeTo(new Vector2d(12, -10))
                     .build();
             Trajectory BReturnTrajectory = drivetrain.trajectoryBuilder(start)
-                    .strafeTo(new Vector2d(-39, 0))
+                    .strafeTo(new Vector2d(-39, -1))
                     .build();
             Trajectory CReturnTrajectory = drivetrain.trajectoryBuilder(start)
-                    .strafeTo(new Vector2d(-68, -18))
+                    .strafeTo(new Vector2d(-68, -19))
                     .build();
+
             Trajectory EndTrajectory = drivetrain.trajectoryBuilder(start)
-                    .strafeTo(new Vector2d(12, 0))
+                    .strafeTo(new Vector2d(11, 0))
                     .build();
 
             if (tfod != null) {
@@ -253,4 +255,6 @@ public class Auto2021Shooter extends LinearOpMode{
         tfod = ClassFactory.getInstance().createTFObjectDetector(tfodParameters, vuforia);
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
+
+//    private
 }
