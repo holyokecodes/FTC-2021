@@ -58,39 +58,52 @@ public class Auto2021Shooter extends LinearOpMode{
     DcMotor shooter;
     Servo finger;
 
-    SampleMecanumDrive drivetrain = new SampleMecanumDrive(hardwareMap);
+    SampleMecanumDrive drivetrain;
 
     private Pose2d start = new Pose2d(0, 0, Math.toRadians(180));
 
-    Trajectory ATrajectory = drivetrain.trajectoryBuilder(start)
-            .strafeTo(new Vector2d(60, 16))
-            .build();
-    Trajectory BTrajectory = drivetrain.trajectoryBuilder(start)
-            .strafeTo(new Vector2d(85, 16))
-            .build();
-    Trajectory CTrajectory = drivetrain.trajectoryBuilder(start)
-            .strafeTo(new Vector2d(101, 18))
-            .build();
+    Trajectory ATrajectory;
+    Trajectory BTrajectory;
+    Trajectory CTrajectory;
 
-    Trajectory AReturnTrajectory = drivetrain.trajectoryBuilder(start)
-            .strafeTo(new Vector2d(12, -10))
-            .build();
-    Trajectory BReturnTrajectory = drivetrain.trajectoryBuilder(start)
-            .strafeTo(new Vector2d(-39, -1))
-            .build();
-    Trajectory CReturnTrajectory = drivetrain.trajectoryBuilder(start)
-            .strafeTo(new Vector2d(-68, -19))
-            .build();
+    Trajectory AReturnTrajectory;
+    Trajectory BReturnTrajectory;
+    Trajectory CReturnTrajectory;
 
-    Trajectory EndTrajectory = drivetrain.trajectoryBuilder(start)
-            .strafeTo(new Vector2d(11, 0))
-            .build();
+    Trajectory EndTrajectory;
 
     @Override
     public void runOpMode(){
         intake = hardwareMap.get(DcMotor.class, "Intake");
         shooter = hardwareMap.get(DcMotor.class, "Shooter");
         finger = hardwareMap.get(Servo.class, "Finger");
+
+        drivetrain = new SampleMecanumDrive(hardwareMap);
+
+        ATrajectory = drivetrain.trajectoryBuilder(start)
+                .strafeTo(new Vector2d(60, 16))
+                .build();
+        BTrajectory = drivetrain.trajectoryBuilder(start)
+                .strafeTo(new Vector2d(85, 16))
+                .build();
+        CTrajectory = drivetrain.trajectoryBuilder(start)
+                .strafeTo(new Vector2d(101, 18))
+                .build();
+
+        AReturnTrajectory = drivetrain.trajectoryBuilder(start)
+                .strafeTo(new Vector2d(12, -10))
+                .build();
+        BReturnTrajectory = drivetrain.trajectoryBuilder(start)
+                .strafeTo(new Vector2d(-39, -1))
+                .build();
+
+        CReturnTrajectory = drivetrain.trajectoryBuilder(start)
+                .strafeTo(new Vector2d(-68, -19))
+                .build();
+
+        EndTrajectory = drivetrain.trajectoryBuilder(start)
+                .strafeTo(new Vector2d(11, 0))
+                .build();
 
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
