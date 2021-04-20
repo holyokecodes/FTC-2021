@@ -84,25 +84,27 @@ public class Auto2021Shooter extends LinearOpMode{
                 .strafeTo(new Vector2d(60, 16))
                 .build();
         BTrajectory = drivetrain.trajectoryBuilder(start)
+                .strafeTo(new Vector2d(37, 32))
                 .strafeTo(new Vector2d(85, 16))
                 .build();
         CTrajectory = drivetrain.trajectoryBuilder(start)
+                .strafeTo(new Vector2d(37, 32))
                 .strafeTo(new Vector2d(101, 18))
                 .build();
 
         AReturnTrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(12, -10))
+                .strafeTo(new Vector2d(11, -10))
                 .build();
         BReturnTrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(-39, -1))
+                .strafeTo(new Vector2d(-40, -1))
                 .build();
 
         CReturnTrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(-68, -19))
+                .strafeTo(new Vector2d(-69, -19))
                 .build();
 
         EndTrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(11, 0))
+                .strafeTo(new Vector2d(10, 0))
                 .build();
 
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
