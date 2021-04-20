@@ -93,14 +93,14 @@ public class Auto2021Shooter extends LinearOpMode{
                 .build();
 
         AReturnTrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(11, -10))
+                .strafeTo(new Vector2d(9, -10))
                 .build();
         BReturnTrajectory = drivetrain.trajectoryBuilder(start)
                 .strafeTo(new Vector2d(-40, -1))
                 .build();
 
         CReturnTrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(-68, -19))
+                .strafeTo(new Vector2d(-69, -19))
                 .build();
 
         EndTrajectory = drivetrain.trajectoryBuilder(start)
