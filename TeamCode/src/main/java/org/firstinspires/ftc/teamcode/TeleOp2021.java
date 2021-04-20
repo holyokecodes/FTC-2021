@@ -139,7 +139,7 @@ public class TeleOp2021 extends LinearOpMode {
             }
 
             Orientation angles=imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX, AngleUnit.DEGREES);
-            double forward = -gamepad1.left_stick_y;
+            double forward = gamepad1.left_stick_y;
             double right  =  gamepad1.left_stick_x;
             double clockwise = gamepad1.right_stick_x;
             clockwise *= sensitivity;
