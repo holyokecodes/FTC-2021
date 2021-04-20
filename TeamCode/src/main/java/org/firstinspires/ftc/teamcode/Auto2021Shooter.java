@@ -100,11 +100,11 @@ public class Auto2021Shooter extends LinearOpMode{
                 .build();
 
         CReturnTrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(-69, -19))
+                .strafeTo(new Vector2d(-68, -19))
                 .build();
 
         EndTrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(10, 0))
+                .strafeTo(new Vector2d(9, 0))
                 .build();
 
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
