@@ -173,10 +173,10 @@ public class Auto2021Shooter extends LinearOpMode{
             } else {
                 doZoneC();
             }
+        }
         if (tfod != null) {
             tfod.shutdown();
         }
-
     }
 
     /**
