@@ -58,11 +58,36 @@ public class Auto2021Shooter extends LinearOpMode{
     DcMotor shooter;
     Servo finger;
 
+    SampleMecanumDrive drivetrain = new SampleMecanumDrive(hardwareMap);
+
     private Pose2d start = new Pose2d(0, 0, Math.toRadians(180));
+
+    Trajectory ATrajectory = drivetrain.trajectoryBuilder(start)
+            .strafeTo(new Vector2d(60, 16))
+            .build();
+    Trajectory BTrajectory = drivetrain.trajectoryBuilder(start)
+            .strafeTo(new Vector2d(85, 16))
+            .build();
+    Trajectory CTrajectory = drivetrain.trajectoryBuilder(start)
+            .strafeTo(new Vector2d(101, 18))
+            .build();
+
+    Trajectory AReturnTrajectory = drivetrain.trajectoryBuilder(start)
+            .strafeTo(new Vector2d(12, -10))
+            .build();
+    Trajectory BReturnTrajectory = drivetrain.trajectoryBuilder(start)
+            .strafeTo(new Vector2d(-39, -1))
+            .build();
+    Trajectory CReturnTrajectory = drivetrain.trajectoryBuilder(start)
+            .strafeTo(new Vector2d(-68, -19))
+            .build();
+
+    Trajectory EndTrajectory = drivetrain.trajectoryBuilder(start)
+            .strafeTo(new Vector2d(11, 0))
+            .build();
 
     @Override
     public void runOpMode(){
-        SampleMecanumDrive drivetrain = new SampleMecanumDrive(hardwareMap);
         intake = hardwareMap.get(DcMotor.class, "Intake");
         shooter = hardwareMap.get(DcMotor.class, "Shooter");
         finger = hardwareMap.get(Servo.class, "Finger");
@@ -99,31 +124,6 @@ public class Auto2021Shooter extends LinearOpMode{
 
         String TargetZone="A";
         if (opModeIsActive()) {
-
-            Trajectory ATrajectory = drivetrain.trajectoryBuilder(start)
-                    .strafeTo(new Vector2d(60, 16))
-                    .build();
-            Trajectory BTrajectory = drivetrain.trajectoryBuilder(start)
-                    .strafeTo(new Vector2d(85, 16))
-                    .build();
-            Trajectory CTrajectory = drivetrain.trajectoryBuilder(start)
-                    .strafeTo(new Vector2d(101, 18))
-                    .build();
-
-            Trajectory AReturnTrajectory = drivetrain.trajectoryBuilder(start)
-                    .strafeTo(new Vector2d(12, -10))
-                    .build();
-            Trajectory BReturnTrajectory = drivetrain.trajectoryBuilder(start)
-                    .strafeTo(new Vector2d(-39, -1))
-                    .build();
-            Trajectory CReturnTrajectory = drivetrain.trajectoryBuilder(start)
-                    .strafeTo(new Vector2d(-68, -19))
-                    .build();
-
-            Trajectory EndTrajectory = drivetrain.trajectoryBuilder(start)
-                    .strafeTo(new Vector2d(11, 0))
-                    .build();
-
             if (tfod != null) {
                 // getUpdatedRecognitions() will return null if no new information is available since
                 // the last time that call was made.
@@ -167,59 +167,12 @@ public class Auto2021Shooter extends LinearOpMode{
 
             //driving out to the zone
             if (TargetZone.equalsIgnoreCase("A")) {
-                drivetrain.followTrajectory(ATrajectory);
-                drivetrain.turn(Math.toRadians(-90));
+                doZoneA();
             } else if (TargetZone.equalsIgnoreCase("B")) {
-                drivetrain.followTrajectory(BTrajectory);
-                drivetrain.turn(Math.toRadians(90));
+                doZoneB();
             } else {
-                drivetrain.followTrajectory(CTrajectory);
-                drivetrain.turn(Math.toRadians(225));
+                doZoneC();
             }
-
-
-            // turn on the motors to dump the wobble goal
-            intake.setPower(-.25);
-
-            sleep(333);
-            intake.setPower(0);
-
-            //drives to the white line
-            if (TargetZone.equalsIgnoreCase("A")) {
-                drivetrain.followTrajectory(AReturnTrajectory);
-                drivetrain.turn(Math.toRadians(88));
-            } else if (TargetZone.equalsIgnoreCase("B")) {
-                drivetrain.turn(Math.toRadians(-90));
-                drivetrain.followTrajectory(BReturnTrajectory);
-                drivetrain.turn(Math.toRadians(-16));
-            } else {
-                drivetrain.turn(Math.toRadians(135));
-                drivetrain.followTrajectory(CReturnTrajectory);
-
-            }
-
-            // moves servo back and forth and shoots rings three times
-            double position = 0.3;
-            shooter.setPower(1);
-            sleep(2000);
-            for (int i = 0; i < 4; i++) {
-                while (position < 0.6) {
-                    position += 0.05;
-                    finger.setPosition(position);
-                }
-
-                sleep(1000);
-
-                while (position > 0.2) {
-                    position -= 0.05;
-                    finger.setPosition(position);
-                }
-                sleep(433);
-
-            }
-
-            drivetrain.followTrajectory(EndTrajectory);
-        }
         if (tfod != null) {
             tfod.shutdown();
         }
@@ -256,5 +209,87 @@ public class Auto2021Shooter extends LinearOpMode{
         tfod.loadModelFromAsset(TFOD_MODEL_ASSET, LABEL_FIRST_ELEMENT, LABEL_SECOND_ELEMENT);
     }
 
-//    private
+    private void initShooter() {
+        shooter.setPower(1);
+        sleep(2000);
+    }
+
+    private void shootRing() {
+        double position = 0.3;
+        while (position < 0.6) {
+            position += 0.05;
+            finger.setPosition(position);
+        }
+
+        sleep(1000);
+
+        while (position > 0.2) {
+            position -= 0.05;
+            finger.setPosition(position);
+        }
+    }
+
+    private void doZoneA(){
+        drivetrain.followTrajectory(ATrajectory);
+        drivetrain.turn(Math.toRadians(-90));
+        // turn on the motors to dump the wobble goal
+        intake.setPower(-.25);
+
+        sleep(333);
+        intake.setPower(0);
+
+        drivetrain.followTrajectory(AReturnTrajectory);
+        drivetrain.turn(Math.toRadians(88));
+
+        initShooter();
+        for (int i = 0; i < 4; i++) {
+            shootRing();
+            sleep(433);
+        }
+
+        drivetrain.followTrajectory(EndTrajectory);
+    }
+
+    private void doZoneB(){
+        drivetrain.followTrajectory(BTrajectory);
+        drivetrain.turn(Math.toRadians(90));
+        // turn on the motors to dump the wobble goal
+        intake.setPower(-.25);
+
+        sleep(333);
+        intake.setPower(0);
+
+        drivetrain.turn(Math.toRadians(-90));
+        drivetrain.followTrajectory(BReturnTrajectory);
+        drivetrain.turn(Math.toRadians(-16));
+
+        initShooter();
+        for (int i = 0; i < 4; i++) {
+            shootRing();
+            sleep(433);
+        }
+
+        drivetrain.followTrajectory(EndTrajectory);
+    }
+
+    private void doZoneC(){
+        drivetrain.followTrajectory(CTrajectory);
+        drivetrain.turn(Math.toRadians(225));
+        // turn on the motors to dump the wobble goal
+        intake.setPower(-.25);
+
+        sleep(333);
+        intake.setPower(0);
+
+        drivetrain.turn(Math.toRadians(135));
+        drivetrain.followTrajectory(CReturnTrajectory);
+
+        initShooter();
+        for (int i = 0; i < 4; i++) {
+            shootRing();
+            sleep(433);
+        }
+
+        drivetrain.followTrajectory(EndTrajectory);
+    }
 }
