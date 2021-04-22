@@ -60,12 +60,18 @@ public class Auto2021Shooter extends LinearOpMode{
 
     SampleMecanumDrive drivetrain;
 
-    private Pose2d start = new Pose2d(0, 0 , Math.toRadians(180)); //Where the robot starts
-    private Pose2d missRingsStart = new Pose2d(37, -32, Math.toRadians(180)); //After missing the rings
+    private Vector2d targetZoneA = new vector2d(60, 16);
+    private Vector2d targetZoneB = new vector2d(85, 16);
+    private Vector2d targetZoneC = new vector2d(101, 18);
 
-    private Pose2d aZone = new Pose2d(60, 16, Math.toRadians(90)); //Where the robot is after going to zone a
-    private Pose2d bZone = new Pose2d(85, 16, Math.toRadians(90)); //Where the robot is after going to zone b
-    private Pose2d cZone = new Pose2d(101, 18, Math.toRadians(90)); //Where the robot is after going to zone c
+    private Vector2d missRings = new Vector2d(37, -32);
+
+    private Pose2d start = new Pose2d(0, 0 , Math.toRadians(180)); //Where the robot starts
+    private Pose2d missRingsStart = new Pose2d(missRings, Math.toRadians(180)); //After missing the rings
+
+    private Pose2d aZone = new Pose2d(targetZoneA, Math.toRadians(90)); //Where the robot is after going to zone a
+    private Pose2d bZone = new Pose2d(targetZoneB, Math.toRadians(90)); //Where the robot is after going to zone b
+    private Pose2d cZone = new Pose2d(targetZoneC, Math.toRadians(90)); //Where the robot is after going to zone c
 
     private Vector2d whiteLine = new Vector2d(45, 0);
 
@@ -95,14 +101,13 @@ public class Auto2021Shooter extends LinearOpMode{
 
 
         ATrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(60, 16))
+                .strafeTo(new Vector2d(targetZoneA))
                 .build();
         BTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
-                .strafeTo(new Vector2d(85, 16))
+                .strafeTo(new Vector2d(targetZoneB))
                 .build();
         CTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
-//                .strafeTo(new Vector2d(37, 32))
-                .strafeTo(new Vector2d(101, 18))
+                .strafeTo(new Vector2d(targetZoneC))
                 .build();
 
 
@@ -120,7 +125,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
 
         MissRingsTrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(37, -32))
+                .strafeTo(new Vector2d(missRings))
                 .build();
         EndTrajectory = drivetrain.trajectoryBuilder(whiteLinePose)
                 .strafeTo(new Vector2d(55, 0))
