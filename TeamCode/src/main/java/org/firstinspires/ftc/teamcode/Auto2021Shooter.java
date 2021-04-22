@@ -158,7 +158,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
         waitForStart();
 
-        String TargetZone="B";
+        String TargetZone="A";
         if (opModeIsActive()) {
             if (tfod != null) {
                 // getUpdatedRecognitions() will return null if no new information is available since
