@@ -60,7 +60,8 @@ public class Auto2021Shooter extends LinearOpMode{
 
     SampleMecanumDrive drivetrain;
 
-    private Pose2d start = new Pose2d(0, 0, Math.toRadians(180));
+    private Pose2d start = new Pose2d(0, 0 , Math.toRadians(180));
+    private Pose2d missRingsStart = new Pose2d(37, 32, Math.toRadians(180));
 
     Trajectory ATrajectory;
     Trajectory BTrajectory;
@@ -69,6 +70,8 @@ public class Auto2021Shooter extends LinearOpMode{
     Trajectory AReturnTrajectory;
     Trajectory BReturnTrajectory;
     Trajectory CReturnTrajectory;
+
+    Trajectory MissRingsTrajectory;
 
     Trajectory EndTrajectory;
 
@@ -84,8 +87,7 @@ public class Auto2021Shooter extends LinearOpMode{
                 .strafeTo(new Vector2d(60, 16))
                 .build();
         BTrajectory = drivetrain.trajectoryBuilder(start)
-//                .strafeTo(new Vector2d(37, 32))
-                .strafeTo(new Vector2d(85, 16))
+//                .strafeTo(new Vector2d(85, 16))
                 .build();
         CTrajectory = drivetrain.trajectoryBuilder(start)
 //                .strafeTo(new Vector2d(37, 32))
@@ -101,6 +103,10 @@ public class Auto2021Shooter extends LinearOpMode{
 
         CReturnTrajectory = drivetrain.trajectoryBuilder(start)
                 .strafeTo(new Vector2d(-69, -19))
+                .build();
+
+        MissRingsTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
+                .strafeTo(new Vector2d(37, 32))
                 .build();
 
         EndTrajectory = drivetrain.trajectoryBuilder(start)
@@ -266,6 +272,7 @@ public class Auto2021Shooter extends LinearOpMode{
     }
 
     private void doZoneB(){
+        drivetrain.followTrajectory(MissRingsTrajectory);
         drivetrain.followTrajectory(BTrajectory);
         drivetrain.turn(Math.toRadians(90));
         // turn on the motors to dump the wobble goal
@@ -288,6 +295,7 @@ public class Auto2021Shooter extends LinearOpMode{
     }
 
     private void doZoneC(){
+        drivetrain.followTrajectory(MissRingsTrajectory);
         drivetrain.followTrajectory(CTrajectory);
         drivetrain.turn(Math.toRadians(225));
         // turn on the motors to dump the wobble goal
