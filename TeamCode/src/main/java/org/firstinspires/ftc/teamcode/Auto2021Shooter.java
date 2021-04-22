@@ -175,26 +175,21 @@ public class Auto2021Shooter extends LinearOpMode{
                         // list is not empty.
                         // step through the list of recognitions and display boundary info.
                         int i = 0;
-                        double maxSize = 0;
-
                         for (Recognition recognition : updatedRecognitions) {
 
                             /*
                              * I chose the height in this way because
                              * 98 px: Single
                              * 196 px: Quad
-                             * So 120 px is a good number to choose between the two.
+                             * So 150 px is a good number to choose between the two.
                              */
-                            if (recognition.getHeight() > maxSize) {
-                                maxSize = recognition.getHeight();
+                            if (recognition.getHeight() > 150) {
+                                TargetZone = "C";
+                            } else {
+                                TargetZone = "B";
                             }
+                            telemetry.addData("Height", recognition.getHeight());
                         }
-                        if (maxSize > 120) {
-                            TargetZone = "C";
-                        } else {
-                            TargetZone = "B";
-                        }
-                        telemetry.addData("Max", maxSize);
                     }
                     telemetry.addData("Target Zone (Height)", TargetZone);
                     telemetry.update();
