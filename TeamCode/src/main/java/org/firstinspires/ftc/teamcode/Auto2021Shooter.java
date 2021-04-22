@@ -61,7 +61,7 @@ public class Auto2021Shooter extends LinearOpMode{
     SampleMecanumDrive drivetrain;
 
     private Pose2d start = new Pose2d(0, 0 , Math.toRadians(180)); //Where the robot starts
-    private Pose2d missRingsStart = new Pose2d(37, 32, Math.toRadians(180)); //After missing the rings
+    private Pose2d missRingsStart = new Pose2d(37, -32, Math.toRadians(180)); //After missing the rings
 
     private Pose2d aZone = new Pose2d(60, 16, Math.toRadians(90)); //Where the robot is after going to zone a
     private Pose2d bZone = new Pose2d(101, 18, Math.toRadians(90)); //Where the robot is after going to zone b
@@ -120,7 +120,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
 
         MissRingsTrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(37, 32))
+                .strafeTo(new Vector2d(37, -32))
                 .build();
         EndTrajectory = drivetrain.trajectoryBuilder(whiteLinePose)
                 .strafeTo(new Vector2d(55, 0))
