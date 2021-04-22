@@ -63,6 +63,10 @@ public class Auto2021Shooter extends LinearOpMode{
     private Pose2d start = new Pose2d(0, 0 , Math.toRadians(180));
     private Pose2d missRingsStart = new Pose2d(37, 32, Math.toRadians(180));
 
+    private Pose2d aZone = new Pose2d(60, 16, Math.toRadians(180));
+    private Pose2d bZone = new Pose2d(101, 18, Math.toRadians(180));
+    private Pose2d cZone = new Pose2d(10, -8, Math.toRadians(180));
+
     Trajectory ATrajectory;
     Trajectory BTrajectory;
     Trajectory CTrajectory;
@@ -83,6 +87,8 @@ public class Auto2021Shooter extends LinearOpMode{
 
         drivetrain = new SampleMecanumDrive(hardwareMap);
 
+
+
         ATrajectory = drivetrain.trajectoryBuilder(start)
                 .strafeTo(new Vector2d(60, 16))
                 .build();
@@ -94,24 +100,28 @@ public class Auto2021Shooter extends LinearOpMode{
                 .strafeTo(new Vector2d(101, 18))
                 .build();
 
-        AReturnTrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(10, -8))
+
+
+        AReturnTrajectory = drivetrain.trajectoryBuilder(aZone)
+                .strafeTo(new Vector2d(55, 12))
                 .build();
-        BReturnTrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(-40, -1))
+        BReturnTrajectory = drivetrain.trajectoryBuilder(bZone)
+                .strafeTo(new Vector2d(55, 12))
+                .build();
+        CReturnTrajectory = drivetrain.trajectoryBuilder(cZone)
+                .strafeTo(new Vector2d(55, 12))
                 .build();
 
-        CReturnTrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(-69, -19))
-                .build();
+        
 
         MissRingsTrajectory = drivetrain.trajectoryBuilder(start)
                 .strafeTo(new Vector2d(37, 32))
                 .build();
-
         EndTrajectory = drivetrain.trajectoryBuilder(start)
                 .strafeTo(new Vector2d(9, 0))
                 .build();
+
+
 
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
         // first.
