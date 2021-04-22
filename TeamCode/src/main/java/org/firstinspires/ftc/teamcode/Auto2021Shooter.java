@@ -197,6 +197,7 @@ public class Auto2021Shooter extends LinearOpMode{
             }
 
             //driving out to the zone
+            sleep(10000);
             if (TargetZone.equalsIgnoreCase("A")) {
                 doZoneA();
             } else if (TargetZone.equalsIgnoreCase("B")) {
