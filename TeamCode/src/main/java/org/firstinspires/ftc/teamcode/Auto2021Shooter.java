@@ -60,14 +60,14 @@ public class Auto2021Shooter extends LinearOpMode{
 
     SampleMecanumDrive drivetrain;
 
-    private Pose2d start = new Pose2d(0, 0 , Math.toRadians(180));
-    private Pose2d missRingsStart = new Pose2d(37, 32, Math.toRadians(180));
+    private Pose2d start = new Pose2d(0, 0 , Math.toRadians(180)); //Where the robot starts
+    private Pose2d missRingsStart = new Pose2d(37, 32, Math.toRadians(180)); //After missing the rings
 
-    private Pose2d aZone = new Pose2d(60, 16, Math.toRadians(270));
-    private Pose2d bZone = new Pose2d(101, 18, Math.toRadians(270));
-    private Pose2d cZone = new Pose2d(10, -8, Math.toRadians(270));
+    private Pose2d aZone = new Pose2d(60, 16, Math.toRadians(90)); //Where the robot is after going to zone a
+    private Pose2d bZone = new Pose2d(101, 18, Math.toRadians(90)); //Where the robot is after going to zone b
+    private Pose2d cZone = new Pose2d(10, -8, Math.toRadians(90)); //Where the robot is after going to zone c
 
-    private Vector2d whiteLine= new Vector2d(55, 12);
+    private Vector2d whiteLine = new Vector2d(55, 12);
 
     Trajectory ATrajectory;
     Trajectory BTrajectory;
@@ -95,7 +95,7 @@ public class Auto2021Shooter extends LinearOpMode{
                 .strafeTo(new Vector2d(60, 16))
                 .build();
         BTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
-//                .strafeTo(new Vector2d(85, 16))
+                .strafeTo(new Vector2d(101, 18))
                 .build();
         CTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
 //                .strafeTo(new Vector2d(37, 32))
@@ -119,8 +119,8 @@ public class Auto2021Shooter extends LinearOpMode{
         MissRingsTrajectory = drivetrain.trajectoryBuilder(start)
                 .strafeTo(new Vector2d(37, 32))
                 .build();
-        EndTrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(9, 0))
+        EndTrajectory = drivetrain.trajectoryBuilder(whiteLine)
+                .strafeTo(new Vector2d(0, 3))
                 .build();
 
 
