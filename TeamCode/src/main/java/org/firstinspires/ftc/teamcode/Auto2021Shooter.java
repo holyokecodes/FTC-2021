@@ -64,8 +64,8 @@ public class Auto2021Shooter extends LinearOpMode{
     private Pose2d missRingsStart = new Pose2d(37, -32, Math.toRadians(180)); //After missing the rings
 
     private Pose2d aZone = new Pose2d(60, 16, Math.toRadians(90)); //Where the robot is after going to zone a
-    private Pose2d bZone = new Pose2d(101, 18, Math.toRadians(90)); //Where the robot is after going to zone b
-    private Pose2d cZone = new Pose2d(10, -8, Math.toRadians(90)); //Where the robot is after going to zone c
+    private Pose2d bZone = new Pose2d(85, 16, Math.toRadians(90)); //Where the robot is after going to zone b
+    private Pose2d cZone = new Pose2d(101, 18, Math.toRadians(90)); //Where the robot is after going to zone c
 
     private Vector2d whiteLine = new Vector2d(45, 0);
 
@@ -98,7 +98,7 @@ public class Auto2021Shooter extends LinearOpMode{
                 .strafeTo(new Vector2d(60, 16))
                 .build();
         BTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
-                .strafeTo(new Vector2d(101, 18))
+                .strafeTo(new Vector2d(85, 16))
                 .build();
         CTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
 //                .strafeTo(new Vector2d(37, 32))
