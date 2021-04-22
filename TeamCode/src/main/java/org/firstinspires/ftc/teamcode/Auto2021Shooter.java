@@ -196,14 +196,14 @@ public class Auto2021Shooter extends LinearOpMode{
                 }
             }
 
-            //driving out to the zone
+            /*//driving out to the zone
             if (TargetZone.equalsIgnoreCase("A")) {
                 doZoneA();
             } else if (TargetZone.equalsIgnoreCase("B")) {
                 doZoneB();
             } else {
                 doZoneC();
-            }
+            }*/
         }
         if (tfod != null) {
             tfod.shutdown();
