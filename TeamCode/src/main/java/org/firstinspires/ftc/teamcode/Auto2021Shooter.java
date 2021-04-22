@@ -123,7 +123,7 @@ public class Auto2021Shooter extends LinearOpMode{
                 .strafeTo(new Vector2d(37, 32))
                 .build();
         EndTrajectory = drivetrain.trajectoryBuilder(whiteLinePose)
-                .strafeTo(new Vector2d(60, 0))
+                .strafeTo(new Vector2d(55, 0))
                 .build();
 
 
