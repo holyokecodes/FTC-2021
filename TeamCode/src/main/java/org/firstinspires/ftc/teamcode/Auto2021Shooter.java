@@ -63,9 +63,11 @@ public class Auto2021Shooter extends LinearOpMode{
     private Pose2d start = new Pose2d(0, 0 , Math.toRadians(180));
     private Pose2d missRingsStart = new Pose2d(37, 32, Math.toRadians(180));
 
-    private Pose2d aZone = new Pose2d(60, 16, Math.toRadians(180));
-    private Pose2d bZone = new Pose2d(101, 18, Math.toRadians(180));
-    private Pose2d cZone = new Pose2d(10, -8, Math.toRadians(180));
+    private Pose2d aZone = new Pose2d(60, 16, Math.toRadians(270));
+    private Pose2d bZone = new Pose2d(101, 18, Math.toRadians(270));
+    private Pose2d cZone = new Pose2d(10, -8, Math.toRadians(270));
+
+    private Vector2d whiteLine= new Vector2d(55, 12);
 
     Trajectory ATrajectory;
     Trajectory BTrajectory;
@@ -103,16 +105,16 @@ public class Auto2021Shooter extends LinearOpMode{
 
 
         AReturnTrajectory = drivetrain.trajectoryBuilder(aZone)
-                .strafeTo(new Vector2d(55, 12))
+                .strafeTo(whiteLine)
                 .build();
         BReturnTrajectory = drivetrain.trajectoryBuilder(bZone)
-                .strafeTo(new Vector2d(55, 12))
+                .strafeTo(whiteLine)
                 .build();
         CReturnTrajectory = drivetrain.trajectoryBuilder(cZone)
-                .strafeTo(new Vector2d(55, 12))
+                .strafeTo(whiteLine)
                 .build();
 
-        
+
 
         MissRingsTrajectory = drivetrain.trajectoryBuilder(start)
                 .strafeTo(new Vector2d(37, 32))
