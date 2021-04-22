@@ -18,7 +18,7 @@ import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 import java.util.List;
 
 
-@Autonomous(name="Autonomous 2021 Shooter Zone A")
+@Autonomous(name="Autonomous 2021 Shooter Zone B")
 
 public class Auto2021ShooterZoneB extends LinearOpMode{
 
