@@ -67,7 +67,7 @@ public class Auto2021Shooter extends LinearOpMode{
     private Pose2d bZone = new Pose2d(101, 18, Math.toRadians(90)); //Where the robot is after going to zone b
     private Pose2d cZone = new Pose2d(10, -8, Math.toRadians(90)); //Where the robot is after going to zone c
 
-    private Vector2d whiteLine = new Vector2d(40, 5);
+    private Vector2d whiteLine = new Vector2d(45, 0);
 
     private Pose2d whiteLinePose = new Pose2d(whiteLine, Math.toRadians(180));
 
@@ -123,7 +123,7 @@ public class Auto2021Shooter extends LinearOpMode{
                 .strafeTo(new Vector2d(37, 32))
                 .build();
         EndTrajectory = drivetrain.trajectoryBuilder(whiteLinePose)
-                .strafeTo(new Vector2d(71, 0))
+                .strafeTo(new Vector2d(68, 0))
                 .build();
 
 
