@@ -60,9 +60,9 @@ public class Auto2021Shooter extends LinearOpMode{
 
     SampleMecanumDrive drivetrain;
 
-    private Vector2d targetZoneA = new vector2d(60, 16);
-    private Vector2d targetZoneB = new vector2d(85, 16);
-    private Vector2d targetZoneC = new vector2d(101, 18);
+    private Vector2d targetZoneA = new Vector2d(60, 16);
+    private Vector2d targetZoneB = new Vector2d(85, 16);
+    private Vector2d targetZoneC = new Vector2d(101, 18);
 
     private Vector2d missRings = new Vector2d(37, -32);
 
