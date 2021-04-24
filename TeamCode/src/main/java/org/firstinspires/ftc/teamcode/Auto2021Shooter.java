@@ -101,13 +101,13 @@ public class Auto2021Shooter extends LinearOpMode{
 
 
         ATrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(targetZoneA))
+                .strafeTo(targetZoneA)
                 .build();
         BTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
-                .strafeTo(new Vector2d(targetZoneB))
+                .strafeTo(targetZoneB)
                 .build();
         CTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
-                .strafeTo(new Vector2d(targetZoneC))
+                .strafeTo(targetZoneC)
                 .build();
 
 
@@ -125,7 +125,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
 
         MissRingsTrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(new Vector2d(missRings))
+                .strafeTo(missRings)
                 .build();
         EndTrajectory = drivetrain.trajectoryBuilder(whiteLinePose)
                 .strafeTo(new Vector2d(55, 0))
