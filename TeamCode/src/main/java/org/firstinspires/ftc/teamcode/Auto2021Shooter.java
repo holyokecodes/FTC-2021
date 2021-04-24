@@ -103,41 +103,41 @@ public class Auto2021Shooter extends LinearOpMode{
 
         ATrajectory = drivetrain.trajectoryBuilder(start)
 //                .strafeTo(targetZoneA)
-                .splineTo(targetZoneA)
+                .splineTo(targetZoneA, Math.toRadians(90))
                 .build();
         BTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
 //                .strafeTo(targetZoneB)
-                .splineTo(targetZoneB)
+                .splineTo(targetZoneB, Math.toRadians(90))
                 .build();
         CTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
 //                .strafeTo(targetZoneC)
-                .splineTo(targetZoneC)
+                .splineTo(targetZoneC, Math.toRadians(90))
                 .build();
 
 
 
         AReturnTrajectory = drivetrain.trajectoryBuilder(aZone)
 //                .strafeTo(whiteLine)
-                .splineTo(whiteLine)
+                .splineTo(whiteLine, Math.toRadians(-90))
                 .build();
         BReturnTrajectory = drivetrain.trajectoryBuilder(bZone)
 //                .strafeTo(whiteLine)
-                .splineTo(whiteLine)
+                .splineTo(whiteLine, Math.toRadians(-90))
                 .build();
         CReturnTrajectory = drivetrain.trajectoryBuilder(cZone)
 //                .strafeTo(whiteLine)
-                .splineTo(whiteLine)
+                .splineTo(whiteLine, Math.toRadians(-90))
                 .build();
 
 
 
         MissRingsTrajectory = drivetrain.trajectoryBuilder(start)
 //                .strafeTo(missRings)
-                .splineTo(missRings)
+                .splineTo(missRings, Math.toRadians(180))
                 .build();
         EndTrajectory = drivetrain.trajectoryBuilder(whiteLinePose)
 //                .strafeTo(new Vector2d(55, 0))
-                .splineTo(new Vector2d(55, 0))
+                .splineTo(new Vector2d(55, 0), Math.toRadians(180))
                 .build();
 
 
