@@ -102,9 +102,8 @@ public class Auto2021Shooter extends LinearOpMode{
         drivetrain.setPoseEstimate(start);
 
         ATrajectory = drivetrain.trajectoryBuilder(start)
-//                .strafeTo(targetZoneA)
-                .splineTo(targetZoneA, 0) //Go to the target zone
-//                .splineTo(whiteLine, Math.toRadians(-90)) //Go to the white line to shoot
+                .splineToSplineHeading(new Pose2d(-60, -40, Math.toRadians(180)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(-6, -60, Math.toRadians(0)), Math.toRadians(0))
                 .build();
         BTrajectory = drivetrain.trajectoryBuilder(start)
 //                .strafeTo(targetZoneB)
@@ -124,8 +123,8 @@ public class Auto2021Shooter extends LinearOpMode{
 
 
         AReturnTrajectory = drivetrain.trajectoryBuilder(aZone)
-//                .strafeTo(whiteLine)
-                .splineTo(whiteLine, 0)
+                .splineToSplineHeading(new Pose2d(-6, -60, Math.toRadians(0)), Math.toRadians(130))
+                .splineToSplineHeading(new Pose2d(0, 0, Math.toRadians(180)), Math.toRadians(0))
                 .build();
         BReturnTrajectory = drivetrain.trajectoryBuilder(bZone)
 //                .strafeTo(whiteLine)
