@@ -103,20 +103,25 @@ public class Auto2021Shooter extends LinearOpMode{
 
         ATrajectory = drivetrain.trajectoryBuilder(start)
 //                .strafeTo(targetZoneA)
-                .splineTo(targetZoneA, Math.toRadians(90))
+                .splineTo(targetZoneA, Math.toRadians(90)) //Go to the target zone
+                .splineTo(whiteLine, Math.toRadians(-90)) //Go to the white line to shoot
                 .build();
         BTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
 //                .strafeTo(targetZoneB)
-                .splineTo(targetZoneB, Math.toRadians(90))
+                .splineTo(missRings, Math.toRadians(180)) //Go off to the side of the rings
+                .splineTo(targetZoneB, Math.toRadians(90)) //Go to the target zone
+                .splineTo(whiteLine, Math.toRadians(-90)) //Go to the white line to shoot
                 .build();
         CTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
 //                .strafeTo(targetZoneC)
-                .splineTo(targetZoneC, Math.toRadians(90))
+                .splineTo(missRings, Math.toRadians(180)) //go off to the side of the rings
+                .splineTo(targetZoneC, Math.toRadians(90)) //Go to the target zone
+                .splineTo(whiteLine, Math.toRadians(-90)) //GO to the white line to shoot
                 .build();
 
 
 
-        AReturnTrajectory = drivetrain.trajectoryBuilder(aZone)
+        /*AReturnTrajectory = drivetrain.trajectoryBuilder(aZone)
 //                .strafeTo(whiteLine)
                 .splineTo(whiteLine, Math.toRadians(-90))
                 .build();
@@ -134,7 +139,7 @@ public class Auto2021Shooter extends LinearOpMode{
         MissRingsTrajectory = drivetrain.trajectoryBuilder(start)
 //                .strafeTo(missRings)
                 .splineTo(missRings, Math.toRadians(180))
-                .build();
+                .build();*/
         EndTrajectory = drivetrain.trajectoryBuilder(whiteLinePose)
 //                .strafeTo(new Vector2d(55, 0))
                 .splineTo(new Vector2d(55, 0), Math.toRadians(180))
@@ -267,7 +272,7 @@ public class Auto2021Shooter extends LinearOpMode{
     }
 
     private void doZoneB(){
-        drivetrain.followTrajectory(MissRingsTrajectory);
+//        drivetrain.followTrajectory(MissRingsTrajectory);
         drivetrain.followTrajectory(BTrajectory);
         drivetrain.turn(Math.toRadians(90));
         // turn on the motors to dump the wobble goal
@@ -290,7 +295,7 @@ public class Auto2021Shooter extends LinearOpMode{
     }
 
     private void doZoneC(){
-        drivetrain.followTrajectory(MissRingsTrajectory);
+//        drivetrain.followTrajectory(MissRingsTrajectory);
         drivetrain.followTrajectory(CTrajectory);
         drivetrain.turn(Math.toRadians(225));
         // turn on the motors to dump the wobble goal
