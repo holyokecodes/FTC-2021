@@ -72,7 +72,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
     private Pose2d aZone = new Pose2d(targetZoneA, Math.toRadians(90)); //Where the robot is after going to zone a
     private Pose2d bZone = new Pose2d(targetZoneB, Math.toRadians(90)); //Where the robot is after going to zone b
-    private Pose2d cZone = new Pose2d(targetZoneC, Math.toRadians(270)); //Where the robot is after going to zone c
+    private Pose2d cZone = new Pose2d(targetZoneC, Math.toRadians(0)); //Where the robot is after going to zone c
 
     private Vector2d whiteLine = new Vector2d(45, 0);
 
