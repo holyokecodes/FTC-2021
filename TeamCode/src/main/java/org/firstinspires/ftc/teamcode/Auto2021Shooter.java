@@ -123,8 +123,8 @@ public class Auto2021Shooter extends LinearOpMode{
 
 
         AReturnTrajectory = drivetrain.trajectoryBuilder(aZone)
-                .splineToSplineHeading(new Pose2d(-6, -60, Math.toRadians(0)), Math.toRadians(130))
-                .splineToSplineHeading(new Pose2d(0, 0, Math.toRadians(180)), Math.toRadians(0))
+                .splineToSplineHeading(new Pose2d(-6, -60, Math.toRadians(0)), Math.toRadians(90))
+                .splineToSplineHeading(new Pose2d(0, -35, Math.toRadians(180)), Math.toRadians(90))
                 .build();
         BReturnTrajectory = drivetrain.trajectoryBuilder(bZone)
 //                .strafeTo(whiteLine)
