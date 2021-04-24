@@ -72,7 +72,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
     private Pose2d aZone = new Pose2d(targetZoneA, Math.toRadians(90)); //Where the robot is after going to zone a
     private Pose2d bZone = new Pose2d(targetZoneB, Math.toRadians(90)); //Where the robot is after going to zone b
-    private Pose2d cZone = new Pose2d(targetZoneC, Math.toRadians(0)); //Where the robot is after going to zone c
+    private Pose2d cZone = new Pose2d(targetZoneC, Math.toRadians(180)); //Where the robot is after going to zone c
 
     private Vector2d whiteLine = new Vector2d(45, 0);
 
@@ -99,37 +99,45 @@ public class Auto2021Shooter extends LinearOpMode{
 
         drivetrain = new SampleMecanumDrive(hardwareMap);
 
-
+        SetPoseEstimate(start);
 
         ATrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(targetZoneA)
+//                .strafeTo(targetZoneA)
+                .splineTo(targetZoneA)
                 .build();
         BTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
-                .strafeTo(targetZoneB)
+//                .strafeTo(targetZoneB)
+                .splineTo(targetZoneB)
                 .build();
         CTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
-                .strafeTo(targetZoneC)
+//                .strafeTo(targetZoneC)
+                .splineTo(targetZoneC)
                 .build();
 
 
 
         AReturnTrajectory = drivetrain.trajectoryBuilder(aZone)
-                .strafeTo(whiteLine)
+//                .strafeTo(whiteLine)
+                .splineTo(whiteLine)
                 .build();
         BReturnTrajectory = drivetrain.trajectoryBuilder(bZone)
-                .strafeTo(whiteLine)
+//                .strafeTo(whiteLine)
+                .splineTo(whiteLine)
                 .build();
         CReturnTrajectory = drivetrain.trajectoryBuilder(cZone)
-                .strafeTo(whiteLine)
+//                .strafeTo(whiteLine)
+                .splineTo(whiteLine)
                 .build();
 
 
 
         MissRingsTrajectory = drivetrain.trajectoryBuilder(start)
-                .strafeTo(missRings)
+//                .strafeTo(missRings)
+                .splineTo(missRings)
                 .build();
         EndTrajectory = drivetrain.trajectoryBuilder(whiteLinePose)
-                .strafeTo(new Vector2d(55, 0))
+//                .strafeTo(new Vector2d(55, 0))
+                .splineTo(new Vector2d(55, 0))
                 .build();
 
 
