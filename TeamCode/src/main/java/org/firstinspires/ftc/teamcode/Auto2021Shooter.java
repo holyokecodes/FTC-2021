@@ -164,7 +164,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
         waitForStart();
 
-        String TargetZone = "Default";
+        String TargetZone = "It didn't return anything";
         if (opModeIsActive()) {
             TargetZone = detectObjects();
 
@@ -179,7 +179,7 @@ public class Auto2021Shooter extends LinearOpMode{
             } else if (TargetZone.equalsIgnoreCase("C")) {
                 doZoneC();
             } else {
-                telemetry.addData("[ERROR]", "It didn't detect anything :(");
+                telemetry.addData("[ERROR]", TargetZone);
             }
         }
         if (tfod != null) {
@@ -331,16 +331,19 @@ public class Auto2021Shooter extends LinearOpMode{
                          */
                         if (recognition.getHeight() > 150) {
                             telemetry.addData("Target Zone (Height)", "C");
+                            telemetry.addData("Height", recognition.getHeight());
                             return "C";
                         } else {
                             telemetry.addData("Target Zone (Height)", "B");
+                            telemetry.addData("Height", recognition.getHeight());
                             return "B";
                         }
-                        telemetry.addData("Height", recognition.getHeight());
                     }
                 }
                 telemetry.update();
             }
+            return "No changed recognitions";
         }
+        return "TFOD is null";
     }
 }
