@@ -99,7 +99,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
         drivetrain = new SampleMecanumDrive(hardwareMap);
 
-        SetPoseEstimate(start);
+        drivetrain.setPoseEstimate(start);
 
         ATrajectory = drivetrain.trajectoryBuilder(start)
 //                .strafeTo(targetZoneA)
