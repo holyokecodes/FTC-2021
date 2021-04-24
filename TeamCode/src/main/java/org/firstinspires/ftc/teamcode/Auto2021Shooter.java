@@ -103,21 +103,21 @@ public class Auto2021Shooter extends LinearOpMode{
 
         ATrajectory = drivetrain.trajectoryBuilder(start)
 //                .strafeTo(targetZoneA)
-                .splineTo(targetZoneA, Math.toRadians(90)) //Go to the target zone
+                .splineTo(targetZoneA, /*Math.toRadians(90)*/0) //Go to the target zone
 //                .splineTo(whiteLine, Math.toRadians(-90)) //Go to the white line to shoot
                 .build();
         BTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
 //                .strafeTo(targetZoneB)
 //                .splineTo(missRings, Math.toRadians(180)) //Go off to the side of the rings
-                .splineTo(missRings)
-                .splineTo(targetZoneB, Math.toRadians(90)) //Go to the target zone
+                .splineTo(missRings, 0)
+                .splineTo(targetZoneB, /*Math.toRadians(90)*/0) //Go to the target zone
 //                .splineTo(whiteLine, Math.toRadians(-90)) //Go to the white line to shoot
                 .build();
         CTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
 //                .strafeTo(targetZoneC)
 //                .splineTo(missRings, Math.toRadians(180)) //go off to the side of the rings
-                .splineTo(missRings)
-                .splineTo(targetZoneC, Math.toRadians(90)) //Go to the target zone
+                .splineTo(missRings, 0)
+                .splineTo(targetZoneC, /*Math.toRadians(90)*/0) //Go to the target zone
 //                .splineTo(whiteLine, Math.toRadians(-90)) //GO to the white line to shoot
                 .build();
 
@@ -125,26 +125,26 @@ public class Auto2021Shooter extends LinearOpMode{
 
         AReturnTrajectory = drivetrain.trajectoryBuilder(aZone)
 //                .strafeTo(whiteLine)
-                .splineTo(whiteLine, Math.toRadians(-90))
+                .splineTo(whiteLine, 0)
                 .build();
         BReturnTrajectory = drivetrain.trajectoryBuilder(bZone)
 //                .strafeTo(whiteLine)
-                .splineTo(whiteLine, Math.toRadians(-90))
+                .splineTo(whiteLine, 0)
                 .build();
         CReturnTrajectory = drivetrain.trajectoryBuilder(cZone)
 //                .strafeTo(whiteLine)
-                .splineTo(whiteLine, Math.toRadians(-90))
+                .splineTo(whiteLine, 0)
                 .build();
 
 
 
         MissRingsTrajectory = drivetrain.trajectoryBuilder(start)
 //                .strafeTo(missRings)
-                .splineTo(missRings, Math.toRadians(180))
+                .splineTo(missRings, 0)
                 .build();
         EndTrajectory = drivetrain.trajectoryBuilder(whiteLinePose)
 //                .strafeTo(new Vector2d(55, 0))
-                .splineTo(new Vector2d(55, 0), Math.toRadians(180))
+                .splineTo(new Vector2d(55, 0), 0)
                 .build();
 
 
