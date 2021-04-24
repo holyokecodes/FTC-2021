@@ -122,15 +122,15 @@ public class Auto2021Shooter extends LinearOpMode{
 
 
 
-        AReturnTrajectory = drivetrain.trajectoryBuilder(aZone)
+        AReturnTrajectory = drivetrain.trajectoryBuilder(ATrajectory.end())
                 .splineToSplineHeading(new Pose2d(-6, -60, Math.toRadians(0)), Math.toRadians(90))
                 .splineToSplineHeading(new Pose2d(0, -35, Math.toRadians(180)), Math.toRadians(90))
                 .build();
-        BReturnTrajectory = drivetrain.trajectoryBuilder(bZone)
+        BReturnTrajectory = drivetrain.trajectoryBuilder(BTrajectory.end())
 //                .strafeTo(whiteLine)
                 .splineTo(whiteLine, 0)
                 .build();
-        CReturnTrajectory = drivetrain.trajectoryBuilder(cZone)
+        CReturnTrajectory = drivetrain.trajectoryBuilder(CTrajectory.end())
 //                .strafeTo(whiteLine)
                 .splineTo(whiteLine, 0)
                 .build();
