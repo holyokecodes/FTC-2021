@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
@@ -163,52 +164,22 @@ public class Auto2021Shooter extends LinearOpMode{
 
         waitForStart();
 
-        String TargetZone="A";
+        String TargetZone = "Default";
         if (opModeIsActive()) {
-            if (tfod != null) {
-                // getUpdatedRecognitions() will return null if no new information is available since
-                // the last time that call was made.
-                List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
-
-                if (updatedRecognitions != null) {
-                    telemetry.addData("# Object Detected", updatedRecognitions.size());
-                    if (updatedRecognitions.size() == 0) {
-                        // empty list.  no objects recognized.
-
-                        telemetry.addData("TFOD", "No items detected.");
-                    } else {
-                        // list is not empty.
-                        // step through the list of recognitions and display boundary info.
-                        int i = 0;
-                        for (Recognition recognition : updatedRecognitions) {
-
-                            /*
-                             * I chose the height in this way because
-                             * 98 px: Single
-                             * 196 px: Quad
-                             * So 150 px is a good number to choose between the two.
-                             */
-                            if (recognition.getHeight() > 150) {
-                                TargetZone = "C";
-                            } else {
-                                TargetZone = "B";
-                            }
-                            telemetry.addData("Height", recognition.getHeight());
-                        }
-                    }
-                    telemetry.addData("Target Zone (Height)", TargetZone);
-                    telemetry.update();
-                }
-            }
+            TargetZone = detectObjects();
 
             //driving out to the zone
-            sleep(10000);
+            sleep(3000);
+
+            TargetZone = detectObjects();
             if (TargetZone.equalsIgnoreCase("A")) {
                 doZoneA();
             } else if (TargetZone.equalsIgnoreCase("B")) {
                 doZoneB();
-            } else {
+            } else if (TargetZone.equalsIgnoreCase("C")) {
                 doZoneC();
+            } else {
+                telemetry.addData("[ERROR]", "It didn't detect anything :(");
             }
         }
         if (tfod != null) {
@@ -330,5 +301,46 @@ public class Auto2021Shooter extends LinearOpMode{
         }
 
         drivetrain.followTrajectory(EndTrajectory);
+    }
+
+    private String detectObjects() {
+        if (tfod != null) {
+            // getUpdatedRecognitions() will return null if no new information is available since
+            // the last time that call was made.
+            List<Recognition> updatedRecognitions = tfod.getUpdatedRecognitions();
+
+            if (updatedRecognitions != null) {
+                telemetry.addData("# Object Detected", updatedRecognitions.size());
+                if (updatedRecognitions.size() == 0) {
+                    // empty list.  no objects recognized.
+
+                    telemetry.addData("TFOD", "No items detected.");
+                    telemetry.addData("Target Zone (Height)", "A");
+                    return "A";
+                } else {
+                    // list is not empty.
+                    // step through the list of recognitions and display boundary info.
+                    int i = 0;
+                    for (Recognition recognition : updatedRecognitions) {
+
+                        /*
+                         * I chose the height in this way because
+                         * 98 px: Single
+                         * 196 px: Quad
+                         * So 150 px is a good number to choose between the two.
+                         */
+                        if (recognition.getHeight() > 150) {
+                            telemetry.addData("Target Zone (Height)", "C");
+                            return "C";
+                        } else {
+                            telemetry.addData("Target Zone (Height)", "B");
+                            return "B";
+                        }
+                        telemetry.addData("Height", recognition.getHeight());
+                    }
+                }
+                telemetry.update();
+            }
+        }
     }
 }
