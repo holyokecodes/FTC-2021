@@ -59,7 +59,6 @@ public class Auto2021Shooter extends LinearOpMode{
     DcMotor shooter;
     Servo finger;
 
-<<<<<<< Updated upstream
     SampleMecanumDrive drivetrain;
 
     private Vector2d targetZoneA = new Vector2d(60, 16);
@@ -91,9 +90,6 @@ public class Auto2021Shooter extends LinearOpMode{
     Trajectory MissRingsTrajectory;
 
     Trajectory EndTrajectory;
-=======
-    private Pose2d start = new Pose2d(0, 0, Math.toRadians(180));
->>>>>>> Stashed changes
 
     @Override
     public void runOpMode(){
