@@ -103,21 +103,21 @@ public class Auto2021Shooter extends LinearOpMode{
 
         ATrajectory = drivetrain.trajectoryBuilder(start)
 //                .strafeTo(targetZoneA)
-                .splineTo(targetZoneA, /*Math.toRadians(90)*/0) //Go to the target zone
+                .splineTo(targetZoneA, 0) //Go to the target zone
 //                .splineTo(whiteLine, Math.toRadians(-90)) //Go to the white line to shoot
                 .build();
-        BTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
+        BTrajectory = drivetrain.trajectoryBuilder(start)
 //                .strafeTo(targetZoneB)
 //                .splineTo(missRings, Math.toRadians(180)) //Go off to the side of the rings
                 .splineTo(missRings, 0)
-                .splineTo(targetZoneB, /*Math.toRadians(90)*/0) //Go to the target zone
+                .splineTo(targetZoneB, 0) //Go to the target zone
 //                .splineTo(whiteLine, Math.toRadians(-90)) //Go to the white line to shoot
                 .build();
-        CTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
+        CTrajectory = drivetrain.trajectoryBuilder(start)
 //                .strafeTo(targetZoneC)
 //                .splineTo(missRings, Math.toRadians(180)) //go off to the side of the rings
                 .splineTo(missRings, 0)
-                .splineTo(targetZoneC, /*Math.toRadians(90)*/0) //Go to the target zone
+                .splineTo(targetZoneC, 0) //Go to the target zone
 //                .splineTo(whiteLine, Math.toRadians(-90)) //GO to the white line to shoot
                 .build();
 
