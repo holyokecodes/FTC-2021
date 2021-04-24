@@ -87,7 +87,7 @@ public class Auto2021Shooter extends LinearOpMode{
     Trajectory BReturnTrajectory;
     Trajectory CReturnTrajectory;
 
-    Trajectory MissRingsTrajectory;
+//    Trajectory MissRingsTrajectory;
 
     Trajectory EndTrajectory;
 
