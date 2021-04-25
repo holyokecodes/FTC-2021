@@ -72,7 +72,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
     private Pose2d aZone = new Pose2d(targetZoneA, Math.toRadians(90)); //Where the robot is after going to zone a
     private Pose2d bZone = new Pose2d(targetZoneB, Math.toRadians(90)); //Where the robot is after going to zone b
-    private Pose2d cZone = new Pose2d(targetZoneC, Math.toRadians(180)); //Where the robot is after going to zone c
+    private Pose2d cZone = new Pose2d(targetZoneC, Math.toRadians(0)); //Where the robot is after going to zone c
 
     private Vector2d whiteLine = new Vector2d(45, 0);
 
@@ -101,6 +101,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
         drivetrain = new SampleMecanumDrive(hardwareMap);
 
+<<<<<<< HEAD
 //        drivetrain.setPoseEstimate(start);
 
         ATrajectory = drivetrain.trajectoryBuilder(start)
@@ -119,10 +120,23 @@ public class Auto2021Shooter extends LinearOpMode{
                 .splineTo(missRings, 0)
                 .splineTo(targetZoneC, 0) //Go to the target zone
 //                .splineTo(whiteLine, Math.toRadians(-90)) //GO to the white line to shoot
+=======
+
+
+        ATrajectory = drivetrain.trajectoryBuilder(start)
+                .strafeTo(targetZoneA)
+                .build();
+        BTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
+                .strafeTo(targetZoneB)
+                .build();
+        CTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
+                .strafeTo(targetZoneC)
+>>>>>>> parent of c6bf215 (:spline:)
                 .build();
 
 
 
+<<<<<<< HEAD
         AReturnTrajectory = drivetrain.trajectoryBuilder(ATrajectory.end())
                 .splineToSplineHeading(new Pose2d(0, -35, Math.toRadians(180)), Math.toRadians(90))
                 .build();
@@ -133,17 +147,34 @@ public class Auto2021Shooter extends LinearOpMode{
         CReturnTrajectory = drivetrain.trajectoryBuilder(CTrajectory.end())
 //                .strafeTo(whiteLine)
                 .splineTo(whiteLine, 0)
+=======
+        AReturnTrajectory = drivetrain.trajectoryBuilder(aZone)
+                .strafeTo(whiteLine)
+                .build();
+        BReturnTrajectory = drivetrain.trajectoryBuilder(bZone)
+                .strafeTo(whiteLine)
+                .build();
+        CReturnTrajectory = drivetrain.trajectoryBuilder(cZone)
+                .strafeTo(whiteLine)
+>>>>>>> parent of c6bf215 (:spline:)
                 .build();
 
 
 
         MissRingsTrajectory = drivetrain.trajectoryBuilder(start)
+<<<<<<< HEAD
 //                .strafeTo(missRings)
                 .splineTo(missRings, 0)
                 .build();
         EndTrajectory = drivetrain.trajectoryBuilder(whiteLinePose)
 //                .strafeTo(new Vector2d(55, 0))
                 .splineTo(new Vector2d(55, 0), 0)
+=======
+                .strafeTo(missRings)
+                .build();
+        EndTrajectory = drivetrain.trajectoryBuilder(whiteLinePose)
+                .strafeTo(new Vector2d(55, 0))
+>>>>>>> parent of c6bf215 (:spline:)
                 .build();
 
 
