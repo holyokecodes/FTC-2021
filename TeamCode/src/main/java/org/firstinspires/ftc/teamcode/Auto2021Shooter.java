@@ -329,7 +329,7 @@ public class Auto2021Shooter extends LinearOpMode{
                     // empty list.  no objects recognized.
 
                     telemetry.addData("TFOD", "No items detected.");
-                    telemetry.addData("Target Zone (Height)", "A");
+                    telemetry.addData("Target Zone", "A");
                     return "A";
                 } else {
                     // list is not empty.
