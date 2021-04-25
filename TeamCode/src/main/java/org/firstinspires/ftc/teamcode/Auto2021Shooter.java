@@ -67,7 +67,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
     private Vector2d missRings = new Vector2d(37, -32);
 
-    private Pose2d start = new Pose2d(0, 0 , Math.toRadians(180)); //Where the robot starts
+    private Pose2d start = new Pose2d(-60, -40, Math.toRadians(90)); //Where the robot starts
     private Pose2d missRingsStart = new Pose2d(missRings, Math.toRadians(180)); //After missing the rings
 
     private Pose2d aZone = new Pose2d(targetZoneA, Math.toRadians(90)); //Where the robot is after going to zone a
@@ -77,6 +77,8 @@ public class Auto2021Shooter extends LinearOpMode{
     private Vector2d whiteLine = new Vector2d(45, 0);
 
     private Pose2d whiteLinePose = new Pose2d(whiteLine, Math.toRadians(180));
+
+    private String versionThing = "Blorp";
 
 
     Trajectory ATrajectory;
@@ -99,10 +101,10 @@ public class Auto2021Shooter extends LinearOpMode{
 
         drivetrain = new SampleMecanumDrive(hardwareMap);
 
-        drivetrain.setPoseEstimate(new Pose2d(-60, -40, 180));
+//        drivetrain.setPoseEstimate(start);
 
-        ATrajectory = drivetrain.trajectoryBuilder(new Pose2d(-60, -40, Math.toRadians(180)))
-                .splineToSplineHeading(new Pose2d(-6, -60, Math.toRadians(0)), Math.toRadians(0))
+        ATrajectory = drivetrain.trajectoryBuilder(start)
+                .splineTo(new Vector2d(-6, -60), Math.toRadians(0))
                 .build();
         BTrajectory = drivetrain.trajectoryBuilder(start)
 //                .strafeTo(targetZoneB)
@@ -197,6 +199,9 @@ public class Auto2021Shooter extends LinearOpMode{
         if (tfod != null) {
             tfod.shutdown();
         }
+
+        telemetry.addData("Version or something", versionThing);
+        telemetry.update();
     }
 
     /**
@@ -251,7 +256,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
     private void doZoneA(){
         drivetrain.followTrajectory(ATrajectory);
-        drivetrain.turn(Math.toRadians(-90));
+//        drivetrain.turn(Math.toRadians(-90));
         // turn on the motors to dump the wobble goal
         intake.setPower(-.25);
 
@@ -259,7 +264,7 @@ public class Auto2021Shooter extends LinearOpMode{
         intake.setPower(0);
 
         drivetrain.followTrajectory(AReturnTrajectory);
-        drivetrain.turn(Math.toRadians(88));
+//        drivetrain.turn(Math.toRadians(88));
 
         initShooter();
         for (int i = 0; i < 4; i++) {
