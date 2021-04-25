@@ -173,7 +173,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
 
         /** Wait for the game to begin */
-        telemetry.addData(">", "Press Play to start op mode, and watch thou robot fly!");
+        telemetry.addData(">", "Press Play to start op mode, wait for Charles III to see things though.");
         telemetry.update();
 
         waitForStart();
