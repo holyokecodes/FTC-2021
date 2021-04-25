@@ -6,6 +6,7 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
@@ -97,6 +98,9 @@ public class Auto2021Shooter extends LinearOpMode{
         shooter = hardwareMap.get(DcMotor.class, "Shooter");
         finger = hardwareMap.get(Servo.class, "Finger");
 
+        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
         drivetrain = new SampleMecanumDrive(hardwareMap);
 
 
@@ -113,13 +117,13 @@ public class Auto2021Shooter extends LinearOpMode{
 
 
 
-        AReturnTrajectory = drivetrain.trajectoryBuilder(aZone)
+        AReturnTrajectory = drivetrain.trajectoryBuilder(ATrajectory.end())
                 .strafeTo(whiteLine)
                 .build();
-        BReturnTrajectory = drivetrain.trajectoryBuilder(bZone)
+        BReturnTrajectory = drivetrain.trajectoryBuilder(BTrajectory.end())
                 .strafeTo(whiteLine)
                 .build();
-        CReturnTrajectory = drivetrain.trajectoryBuilder(cZone)
+        CReturnTrajectory = drivetrain.trajectoryBuilder(CTrajectory.end())
                 .strafeTo(whiteLine)
                 .build();
 
@@ -261,7 +265,7 @@ public class Auto2021Shooter extends LinearOpMode{
     private void doZoneB(){
         drivetrain.followTrajectory(MissRingsTrajectory);
         drivetrain.followTrajectory(BTrajectory);
-        drivetrain.turn(Math.toRadians(90));
+        drivetrain.turn(Math.toRadians(135));
         // turn on the motors to dump the wobble goal
         intake.setPower(-.25);
 
@@ -284,7 +288,7 @@ public class Auto2021Shooter extends LinearOpMode{
     private void doZoneC(){
         drivetrain.followTrajectory(MissRingsTrajectory);
         drivetrain.followTrajectory(CTrajectory);
-        drivetrain.turn(Math.toRadians(225));
+        drivetrain.turn(Math.toRadians(-135));
         // turn on the motors to dump the wobble goal
         intake.setPower(-.25);
 
