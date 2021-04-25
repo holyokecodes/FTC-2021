@@ -67,7 +67,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
     private Vector2d missRings = new Vector2d(37, -32);
 
-    private Pose2d start = new Pose2d(-60, -40, Math.toRadians(90)); //Where the robot starts
+    private Pose2d start = new Pose2d(0, 0 , Math.toRadians(180)); //Where the robot starts
     private Pose2d missRingsStart = new Pose2d(missRings, Math.toRadians(180)); //After missing the rings
 
     private Pose2d aZone = new Pose2d(targetZoneA, Math.toRadians(90)); //Where the robot is after going to zone a
@@ -77,8 +77,6 @@ public class Auto2021Shooter extends LinearOpMode{
     private Vector2d whiteLine = new Vector2d(45, 0);
 
     private Pose2d whiteLinePose = new Pose2d(whiteLine, Math.toRadians(180));
-
-    private String versionThing = "Blorp";
 
 
     Trajectory ATrajectory;
@@ -101,26 +99,6 @@ public class Auto2021Shooter extends LinearOpMode{
 
         drivetrain = new SampleMecanumDrive(hardwareMap);
 
-<<<<<<< HEAD
-//        drivetrain.setPoseEstimate(start);
-
-        ATrajectory = drivetrain.trajectoryBuilder(start)
-                .splineTo(new Vector2d(-6, -60), Math.toRadians(0))
-                .build();
-        BTrajectory = drivetrain.trajectoryBuilder(start)
-//                .strafeTo(targetZoneB)
-//                .splineTo(missRings, Math.toRadians(180)) //Go off to the side of the rings
-                .splineTo(missRings, 0)
-                .splineTo(targetZoneB, 0) //Go to the target zone
-//                .splineTo(whiteLine, Math.toRadians(-90)) //Go to the white line to shoot
-                .build();
-        CTrajectory = drivetrain.trajectoryBuilder(start)
-//                .strafeTo(targetZoneC)
-//                .splineTo(missRings, Math.toRadians(180)) //go off to the side of the rings
-                .splineTo(missRings, 0)
-                .splineTo(targetZoneC, 0) //Go to the target zone
-//                .splineTo(whiteLine, Math.toRadians(-90)) //GO to the white line to shoot
-=======
 
 
         ATrajectory = drivetrain.trajectoryBuilder(start)
@@ -131,23 +109,10 @@ public class Auto2021Shooter extends LinearOpMode{
                 .build();
         CTrajectory = drivetrain.trajectoryBuilder(missRingsStart)
                 .strafeTo(targetZoneC)
->>>>>>> parent of c6bf215 (:spline:)
                 .build();
 
 
 
-<<<<<<< HEAD
-        AReturnTrajectory = drivetrain.trajectoryBuilder(ATrajectory.end())
-                .splineToSplineHeading(new Pose2d(0, -35, Math.toRadians(180)), Math.toRadians(90))
-                .build();
-        BReturnTrajectory = drivetrain.trajectoryBuilder(BTrajectory.end())
-//                .strafeTo(whiteLine)
-                .splineTo(whiteLine, 0)
-                .build();
-        CReturnTrajectory = drivetrain.trajectoryBuilder(CTrajectory.end())
-//                .strafeTo(whiteLine)
-                .splineTo(whiteLine, 0)
-=======
         AReturnTrajectory = drivetrain.trajectoryBuilder(aZone)
                 .strafeTo(whiteLine)
                 .build();
@@ -156,25 +121,15 @@ public class Auto2021Shooter extends LinearOpMode{
                 .build();
         CReturnTrajectory = drivetrain.trajectoryBuilder(cZone)
                 .strafeTo(whiteLine)
->>>>>>> parent of c6bf215 (:spline:)
                 .build();
 
 
 
         MissRingsTrajectory = drivetrain.trajectoryBuilder(start)
-<<<<<<< HEAD
-//                .strafeTo(missRings)
-                .splineTo(missRings, 0)
-                .build();
-        EndTrajectory = drivetrain.trajectoryBuilder(whiteLinePose)
-//                .strafeTo(new Vector2d(55, 0))
-                .splineTo(new Vector2d(55, 0), 0)
-=======
                 .strafeTo(missRings)
                 .build();
         EndTrajectory = drivetrain.trajectoryBuilder(whiteLinePose)
                 .strafeTo(new Vector2d(55, 0))
->>>>>>> parent of c6bf215 (:spline:)
                 .build();
 
 
@@ -204,7 +159,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
 
         /** Wait for the game to begin */
-        telemetry.addData(">", "Press Play to start op mode, wait for Charles III to see things though.");
+        telemetry.addData(">", "Press Play to start op mode, and watch thou robot fly!");
         telemetry.update();
 
         waitForStart();
@@ -230,9 +185,6 @@ public class Auto2021Shooter extends LinearOpMode{
         if (tfod != null) {
             tfod.shutdown();
         }
-
-        telemetry.addData("Version or something", versionThing);
-        telemetry.update();
     }
 
     /**
@@ -287,7 +239,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
     private void doZoneA(){
         drivetrain.followTrajectory(ATrajectory);
-//        drivetrain.turn(Math.toRadians(-90));
+        drivetrain.turn(Math.toRadians(-90));
         // turn on the motors to dump the wobble goal
         intake.setPower(-.25);
 
@@ -295,7 +247,7 @@ public class Auto2021Shooter extends LinearOpMode{
         intake.setPower(0);
 
         drivetrain.followTrajectory(AReturnTrajectory);
-//        drivetrain.turn(Math.toRadians(88));
+        drivetrain.turn(Math.toRadians(88));
 
         initShooter();
         for (int i = 0; i < 4; i++) {
@@ -307,7 +259,7 @@ public class Auto2021Shooter extends LinearOpMode{
     }
 
     private void doZoneB(){
-//        drivetrain.followTrajectory(MissRingsTrajectory);
+        drivetrain.followTrajectory(MissRingsTrajectory);
         drivetrain.followTrajectory(BTrajectory);
         drivetrain.turn(Math.toRadians(90));
         // turn on the motors to dump the wobble goal
@@ -330,7 +282,7 @@ public class Auto2021Shooter extends LinearOpMode{
     }
 
     private void doZoneC(){
-//        drivetrain.followTrajectory(MissRingsTrajectory);
+        drivetrain.followTrajectory(MissRingsTrajectory);
         drivetrain.followTrajectory(CTrajectory);
         drivetrain.turn(Math.toRadians(225));
         // turn on the motors to dump the wobble goal
@@ -363,7 +315,7 @@ public class Auto2021Shooter extends LinearOpMode{
                     // empty list.  no objects recognized.
 
                     telemetry.addData("TFOD", "No items detected.");
-                    telemetry.addData("Target Zone", "A");
+                    telemetry.addData("Target Zone (Height)", "A");
                     return "A";
                 } else {
                     // list is not empty.
