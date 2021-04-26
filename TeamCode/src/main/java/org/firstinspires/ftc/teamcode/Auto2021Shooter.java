@@ -132,8 +132,8 @@ public class Auto2021Shooter extends LinearOpMode{
         //CReturnTrajectory = drivetrain.trajectoryBuilder(CTrajectory.end())
         //        .strafeTo(whiteLine)
         //        .build();
-        CReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d())
-                .strafeTo(new Vector2d(42, 24))
+        CReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, 0))
+                .strafeTo(new Vector2d(50, 24))
                 .build();
 
 
@@ -277,12 +277,12 @@ public class Auto2021Shooter extends LinearOpMode{
         // turn on the motors to dump the wobble goal
         intake.setPower(-.25);
 
-        sleep(333);
+        sleep(600);
         intake.setPower(0);
 
         drivetrain.turn(Math.toRadians(-145));
         drivetrain.followTrajectory(BReturnTrajectory);
-        drivetrain.turn(Math.toRadians(-16));
+        //drivetrain.turn(Math.toRadians(-16));
 
         initShooter();
         for (int i = 0; i < 4; i++) {
@@ -305,7 +305,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
         drivetrain.turn(Math.toRadians(135));
         drivetrain.followTrajectory(CReturnTrajectory);
-        drivetrain.turn(Math.toRadians(-10)); // -10 moves left for power shots, 10 would move right for high/mid goals
+        drivetrain.turn(Math.toRadians(10)); // -10 moves left for power shots, 10 would move right for high/mid goals
 
         initShooter();
         for (int i = 0; i < 4; i++) {
