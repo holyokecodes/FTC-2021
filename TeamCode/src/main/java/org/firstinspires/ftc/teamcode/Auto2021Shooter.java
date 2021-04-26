@@ -63,7 +63,7 @@ public class Auto2021Shooter extends LinearOpMode{
     SampleMecanumDrive drivetrain;
 
     private Vector2d targetZoneA = new Vector2d(60, 16);
-    private Vector2d targetZoneB = new Vector2d(85, 16);
+    private Vector2d targetZoneB = new Vector2d(82, 6);
     private Vector2d targetZoneC = new Vector2d(101, 18);
 
     private Vector2d missRings = new Vector2d(37, -32);
@@ -117,16 +117,24 @@ public class Auto2021Shooter extends LinearOpMode{
 
 
 
-        AReturnTrajectory = drivetrain.trajectoryBuilder(ATrajectory.end())
-                .strafeTo(whiteLine)
+        //AReturnTrajectory = drivetrain.trajectoryBuilder(ATrajectory.end())
+        //        .strafeTo(whiteLine)
+        //        .build();
+        AReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, 0))
+                .strafeTo(new Vector2d(-24, 18))
                 .build();
-        BReturnTrajectory = drivetrain.trajectoryBuilder(BTrajectory.end())
-                .strafeTo(whiteLine)
+        //BReturnTrajectory = drivetrain.trajectoryBuilder(BTrajectory.end())
+        //        .strafeTo(whiteLine)
+        //        .build();
+        BReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, 0))
+                .strafeTo(new Vector2d(22, 4))
                 .build();
-        CReturnTrajectory = drivetrain.trajectoryBuilder(CTrajectory.end())
-                .strafeTo(whiteLine)
+        //CReturnTrajectory = drivetrain.trajectoryBuilder(CTrajectory.end())
+        //        .strafeTo(whiteLine)
+        //        .build();
+        CReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, 0))
+                .strafeTo(new Vector2d(42, 24))
                 .build();
-
 
 
         MissRingsTrajectory = drivetrain.trajectoryBuilder(start)
@@ -251,7 +259,7 @@ public class Auto2021Shooter extends LinearOpMode{
         intake.setPower(0);
 
         drivetrain.followTrajectory(AReturnTrajectory);
-        drivetrain.turn(Math.toRadians(88));
+        drivetrain.turn(Math.toRadians(95));
 
         initShooter();
         for (int i = 0; i < 4; i++) {
@@ -272,7 +280,7 @@ public class Auto2021Shooter extends LinearOpMode{
         sleep(333);
         intake.setPower(0);
 
-        drivetrain.turn(Math.toRadians(-90));
+        drivetrain.turn(Math.toRadians(-145));
         drivetrain.followTrajectory(BReturnTrajectory);
         drivetrain.turn(Math.toRadians(-16));
 
@@ -297,6 +305,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
         drivetrain.turn(Math.toRadians(135));
         drivetrain.followTrajectory(CReturnTrajectory);
+        drivetrain.turn(Math.toRadians(-10)); // -10 moves left for power shots, 10 would move right for high/mid goals
 
         initShooter();
         for (int i = 0; i < 4; i++) {
