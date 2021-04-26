@@ -120,19 +120,19 @@ public class Auto2021Shooter extends LinearOpMode{
         //AReturnTrajectory = drivetrain.trajectoryBuilder(ATrajectory.end())
         //        .strafeTo(whiteLine)
         //        .build();
-        AReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, 0))
+        AReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d())
                 .strafeTo(new Vector2d(-24, 18))
                 .build();
         //BReturnTrajectory = drivetrain.trajectoryBuilder(BTrajectory.end())
         //        .strafeTo(whiteLine)
         //        .build();
-        BReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, 0))
+        BReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d())
                 .strafeTo(new Vector2d(22, 4))
                 .build();
         //CReturnTrajectory = drivetrain.trajectoryBuilder(CTrajectory.end())
         //        .strafeTo(whiteLine)
         //        .build();
-        CReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, 0))
+        CReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d())
                 .strafeTo(new Vector2d(42, 24))
                 .build();
 
