@@ -6,24 +6,21 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-
 import java.util.List;
 
 
-@Autonomous(name="Autonomous 2021 Shooter")
+@Autonomous(name="Autonomous 2021 Shooter No encode")
 
-public class Auto2021Shooter extends LinearOpMode{
+public class Auto2021ShooterNoEncode extends LinearOpMode{
 
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Quad";
@@ -58,14 +55,13 @@ public class Auto2021Shooter extends LinearOpMode{
     private TFObjectDetector tfod;
 
     DcMotor intake;
-    DcMotorEx shooter;
+    DcMotor shooter;
     Servo finger;
 
     SampleMecanumDrive drivetrain;
 
-
     private Vector2d targetZoneA = new Vector2d(60, 16);
-    private Vector2d targetZoneB = new Vector2d(78, 6);
+    private Vector2d targetZoneB = new Vector2d(82, 6);
     private Vector2d targetZoneC = new Vector2d(101, 18);
 
     private Vector2d missRings = new Vector2d(37, -32);
@@ -97,11 +93,11 @@ public class Auto2021Shooter extends LinearOpMode{
     @Override
     public void runOpMode(){
         intake = hardwareMap.get(DcMotor.class, "Intake");
-        shooter = hardwareMap.get(DcMotorEx.class, "Shooter");
+        shooter = hardwareMap.get(DcMotor.class, "Shooter");
         finger = hardwareMap.get(Servo.class, "Finger");
 
-        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         drivetrain = new SampleMecanumDrive(hardwareMap);
 
@@ -129,7 +125,7 @@ public class Auto2021Shooter extends LinearOpMode{
         //        .strafeTo(whiteLine)
         //        .build();
         BReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, 0))
-                .strafeTo(new Vector2d(17, 4))
+                .strafeTo(new Vector2d(22, 4))
                 .build();
         //CReturnTrajectory = drivetrain.trajectoryBuilder(CTrajectory.end())
         //        .strafeTo(whiteLine)
@@ -232,8 +228,7 @@ public class Auto2021Shooter extends LinearOpMode{
     }
 
     private void initShooter() {
-        //shooter.setPower(1);
-        shooter.setVelocity(6600);
+        shooter.setPower(1);
         sleep(2000);
     }
 
