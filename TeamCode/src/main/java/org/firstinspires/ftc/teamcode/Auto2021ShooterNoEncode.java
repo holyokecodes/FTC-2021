@@ -61,7 +61,7 @@ public class Auto2021ShooterNoEncode extends LinearOpMode{
     SampleMecanumDrive drivetrain;
 
     private Vector2d targetZoneA = new Vector2d(60, 16);
-    private Vector2d targetZoneB = new Vector2d(82, 6);
+    private Vector2d targetZoneB = new Vector2d(82, 7);
     private Vector2d targetZoneC = new Vector2d(101, 18);
 
     private Vector2d missRings = new Vector2d(37, -32);
@@ -125,7 +125,7 @@ public class Auto2021ShooterNoEncode extends LinearOpMode{
         //        .strafeTo(whiteLine)
         //        .build();
         BReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, 0))
-                .strafeTo(new Vector2d(22, 4))
+                .strafeTo(new Vector2d(20, 4))
                 .build();
         //CReturnTrajectory = drivetrain.trajectoryBuilder(CTrajectory.end())
         //        .strafeTo(whiteLine)
