@@ -1,3 +1,4 @@
+
 package org.firstinspires.ftc.teamcode;
 
 import com.acmerobotics.roadrunner.geometry.Pose2d;
@@ -6,6 +7,8 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
@@ -18,7 +21,7 @@ import java.util.List;
 
 @Autonomous(name="Autonomous 2021(March Version)")
 
-public class Auto2021_3_11 {
+public class Auto2021_3_11 extends LinearOpMode{
 
         private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
         private static final String LABEL_FIRST_ELEMENT = "Quad";
@@ -54,7 +57,16 @@ public class Auto2021_3_11 {
 
         DcMotor intake;
 
-        @Override
+
+        private DcMotor backLeft;
+        private DcMotor backRight;
+        private DcMotor frontLeft;
+        private DcMotor frontRight;
+        private Servo finger;
+        private DcMotorEx shooter;
+
+
+    //@Override
         public void runOpMode(){
             SampleMecanumDrive drivetrain = new SampleMecanumDrive(hardwareMap);
             intake = hardwareMap.get(DcMotor.class, "Intake");
