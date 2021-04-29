@@ -65,7 +65,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
 
     private Vector2d targetZoneA = new Vector2d(60, 16);
-    private Vector2d targetZoneB = new Vector2d(78, 6);
+    private Vector2d targetZoneB = new Vector2d(81, 6);
     private Vector2d targetZoneC = new Vector2d(101, 18);
 
     private Vector2d missRings = new Vector2d(37, -32);
@@ -74,7 +74,7 @@ public class Auto2021Shooter extends LinearOpMode{
     private Pose2d missRingsStart = new Pose2d(missRings, Math.toRadians(180)); //After missing the rings
 
     private Pose2d aZone = new Pose2d(targetZoneA, Math.toRadians(90)); //Where the robot is after going to zone a
-    private Pose2d bZone = new Pose2d(targetZoneB, Math.toRadians(90)); //Where the robot is after going to zone b
+    private Pose2d bZone = new Pose2d(targetZoneB, Math.toRadians(0)); //Where the robot is after going to zone b
     private Pose2d cZone = new Pose2d(targetZoneC, Math.toRadians(0)); //Where the robot is after going to zone c
 
     private Vector2d whiteLine = new Vector2d(45, 0);
@@ -129,7 +129,7 @@ public class Auto2021Shooter extends LinearOpMode{
         //        .strafeTo(whiteLine)
         //        .build();
         BReturnTrajectory = drivetrain.trajectoryBuilder(new Pose2d(0, 0, 0))
-                .strafeTo(new Vector2d(17, 4))
+                .strafeTo(new Vector2d(20, 4))
                 .build();
         //CReturnTrajectory = drivetrain.trajectoryBuilder(CTrajectory.end())
         //        .strafeTo(whiteLine)
@@ -275,7 +275,11 @@ public class Auto2021Shooter extends LinearOpMode{
 
     private void doZoneB(){
         drivetrain.followTrajectory(MissRingsTrajectory);
-        drivetrain.followTrajectory(BTrajectory);
+        Trajectory BTrajectory2 = drivetrain.trajectoryBuilder(new Pose2d(0, 0, Math.toRadians(180)))
+                                .strafeTo(new Vector2d(42, 36))
+                                .build();
+        drivetrain.followTrajectory(BTrajectory2);
+        //drivetrain.followTrajectory(BTrajectory);
         drivetrain.turn(Math.toRadians(135));
         // turn on the motors to dump the wobble goal
         intake.setPower(-.25);
