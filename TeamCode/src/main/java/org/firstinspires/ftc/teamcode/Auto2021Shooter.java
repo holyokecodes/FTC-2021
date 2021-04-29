@@ -172,30 +172,33 @@ public class Auto2021Shooter extends LinearOpMode{
         }
 
 
-        /** Wait for the game to begin */
-        telemetry.addData(">", "Press Play to start op mode, and watch thou robot fly!");
-        telemetry.update();
 
-        waitForStart();
+		/** Wait for the game to begin */
+		telemetry.addData(">", "Press Play to start op mode, and watch thou robot fly!");
+		telemetry.update();
 
-        String TargetZone = "It didn't return anything";
-        if (opModeIsActive()) {
-            TargetZone = detectObjects();
+		waitForStart();
 
-            //driving out to the zone
-            sleep(3000);
+		String TargetZone = "It didn't return anything";
+		//String TargetZone = "A";
+		if (opModeIsActive()) {
+			TargetZone = detectObjects();
 
-            TargetZone = detectObjects();
-            if (TargetZone.equalsIgnoreCase("A")) {
-                doZoneA();
-            } else if (TargetZone.equalsIgnoreCase("B")) {
-                doZoneB();
-            } else if (TargetZone.equalsIgnoreCase("C")) {
-                doZoneC();
-            } else {
-                telemetry.addData("[ERROR]", TargetZone);
-            }
-        }
+			//driving out to the zone
+			sleep(3000);
+
+			TargetZone = detectObjects();
+			if (TargetZone.equalsIgnoreCase("A")) {
+				doZoneA();
+			} else if (TargetZone.equalsIgnoreCase("B")) {
+				doZoneB();
+			} else if (TargetZone.equalsIgnoreCase("C")) {
+				doZoneC();
+			} else {
+				telemetry.addData("[ERROR]", TargetZone);
+			}
+		}
+
         if (tfod != null) {
             tfod.shutdown();
         }
