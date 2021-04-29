@@ -6,24 +6,21 @@ import com.acmerobotics.roadrunner.trajectory.Trajectory;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
-import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer.CameraDirection;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.teamcode.drive.SampleMecanumDrive;
 
-
 import java.util.List;
 
 
-@Autonomous(name="Autonomous 2021 Shooter")
+@Autonomous(name="Autonomous 2021 Shooter No encode")
 
-public class Auto2021Shooter extends LinearOpMode{
+public class Auto2021ShooterNoEncode extends LinearOpMode{
 
     private static final String TFOD_MODEL_ASSET = "UltimateGoal.tflite";
     private static final String LABEL_FIRST_ELEMENT = "Quad";
@@ -58,14 +55,13 @@ public class Auto2021Shooter extends LinearOpMode{
     private TFObjectDetector tfod;
 
     DcMotor intake;
-    DcMotorEx shooter;
+    DcMotor shooter;
     Servo finger;
 
     SampleMecanumDrive drivetrain;
 
-
     private Vector2d targetZoneA = new Vector2d(60, 16);
-    private Vector2d targetZoneB = new Vector2d(81, 6);
+    private Vector2d targetZoneB = new Vector2d(82, 7);
     private Vector2d targetZoneC = new Vector2d(101, 18);
 
     private Vector2d missRings = new Vector2d(37, -32);
@@ -74,7 +70,7 @@ public class Auto2021Shooter extends LinearOpMode{
     private Pose2d missRingsStart = new Pose2d(missRings, Math.toRadians(180)); //After missing the rings
 
     private Pose2d aZone = new Pose2d(targetZoneA, Math.toRadians(90)); //Where the robot is after going to zone a
-    private Pose2d bZone = new Pose2d(targetZoneB, Math.toRadians(0)); //Where the robot is after going to zone b
+    private Pose2d bZone = new Pose2d(targetZoneB, Math.toRadians(90)); //Where the robot is after going to zone b
     private Pose2d cZone = new Pose2d(targetZoneC, Math.toRadians(0)); //Where the robot is after going to zone c
 
     private Vector2d whiteLine = new Vector2d(45, 0);
@@ -97,11 +93,11 @@ public class Auto2021Shooter extends LinearOpMode{
     @Override
     public void runOpMode(){
         intake = hardwareMap.get(DcMotor.class, "Intake");
-        shooter = hardwareMap.get(DcMotorEx.class, "Shooter");
+        shooter = hardwareMap.get(DcMotor.class, "Shooter");
         finger = hardwareMap.get(Servo.class, "Finger");
 
-        shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //shooter.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        //intake.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
         drivetrain = new SampleMecanumDrive(hardwareMap);
 
@@ -172,33 +168,30 @@ public class Auto2021Shooter extends LinearOpMode{
         }
 
 
+        /** Wait for the game to begin */
+        telemetry.addData(">", "Press Play to start op mode, and watch thou robot fly!");
+        telemetry.update();
 
-		/** Wait for the game to begin */
-		telemetry.addData(">", "Press Play to start op mode, and watch thou robot fly!");
-		telemetry.update();
+        waitForStart();
 
-		waitForStart();
+        String TargetZone = "It didn't return anything";
+        if (opModeIsActive()) {
+            TargetZone = detectObjects();
 
-		String TargetZone = "It didn't return anything";
-		//String TargetZone = "A";
-		if (opModeIsActive()) {
-			TargetZone = detectObjects();
+            //driving out to the zone
+            sleep(3000);
 
-			//driving out to the zone
-			sleep(3000);
-
-			TargetZone = detectObjects();
-			if (TargetZone.equalsIgnoreCase("A")) {
-				doZoneA();
-			} else if (TargetZone.equalsIgnoreCase("B")) {
-				doZoneB();
-			} else if (TargetZone.equalsIgnoreCase("C")) {
-				doZoneC();
-			} else {
-				telemetry.addData("[ERROR]", TargetZone);
-			}
-		}
-
+            TargetZone = detectObjects();
+            if (TargetZone.equalsIgnoreCase("A")) {
+                doZoneA();
+            } else if (TargetZone.equalsIgnoreCase("B")) {
+                doZoneB();
+            } else if (TargetZone.equalsIgnoreCase("C")) {
+                doZoneC();
+            } else {
+                telemetry.addData("[ERROR]", TargetZone);
+            }
+        }
         if (tfod != null) {
             tfod.shutdown();
         }
@@ -235,8 +228,7 @@ public class Auto2021Shooter extends LinearOpMode{
     }
 
     private void initShooter() {
-        //shooter.setPower(1);
-        shooter.setVelocity(6600);
+        shooter.setPower(1);
         sleep(2000);
     }
 
@@ -278,11 +270,7 @@ public class Auto2021Shooter extends LinearOpMode{
 
     private void doZoneB(){
         drivetrain.followTrajectory(MissRingsTrajectory);
-        Trajectory BTrajectory2 = drivetrain.trajectoryBuilder(new Pose2d(0, 0, Math.toRadians(180)))
-                                .strafeTo(new Vector2d(42, 36))
-                                .build();
-        drivetrain.followTrajectory(BTrajectory2);
-        //drivetrain.followTrajectory(BTrajectory);
+        drivetrain.followTrajectory(BTrajectory);
         drivetrain.turn(Math.toRadians(135));
         // turn on the motors to dump the wobble goal
         intake.setPower(-.25);

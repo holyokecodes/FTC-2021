@@ -14,23 +14,19 @@ DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 package org.firstinspires.ftc.teamcode;
-import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
-import java.util.Comparator;
-import java.util.stream.Stream;
-import com.qualcomm.robotcore.hardware.Servo;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
 import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.hardware.Blinker;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorSimple;
-import com.qualcomm.robotcore.hardware.DcMotorEx;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.ElapsedTime;
+
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
  * the autonomous or the teleop period of an FTC match. The names of OpModes appear on the menu
@@ -43,15 +39,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove a @Disabled the on the next line or two (if present) to add this opmode to the Driver Station OpMode list,
  * or add a @Disabled annotation to prevent this OpMode from being added to the Driver Station
  */
-@TeleOp(name = "Tele-op 2021 IMU")
-public class TeleOp2021IMU extends LinearOpMode {
+@TeleOp(name = "Tele-op 2021 No Encode")
+public class TeleOp2021NoEncode extends LinearOpMode {
 //    private Blinker expansion_Hub_2;
     private DcMotor backLeft;
     private DcMotor backRight;
     private DcMotor frontLeft;
     private DcMotor frontRight;
     private Servo finger;
-    private DcMotorEx shooter;
+    private DcMotor shooter;
     private DcMotor intake;
 
     private BNO055IMU imu;
@@ -99,7 +95,7 @@ public class TeleOp2021IMU extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
 
         finger = hardwareMap.get(Servo.class, "Finger");
-        shooter = hardwareMap.get(DcMotorEx.class, "Shooter");
+        shooter = hardwareMap.get(DcMotor.class, "Shooter");
         intake = hardwareMap.get(DcMotor.class, "Intake");
 
         // Wait for the start button
@@ -112,7 +108,7 @@ public class TeleOp2021IMU extends LinearOpMode {
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.mode = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
+        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.loggingEnabled = false;
 
@@ -139,45 +135,46 @@ public class TeleOp2021IMU extends LinearOpMode {
                 telemetry.addData("Pesise Mode", "Off");
             }
 
-            Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+            Orientation angles=imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX, AngleUnit.DEGREES);
+            double forward = gamepad1.left_stick_y;
+            double right  =  gamepad1.left_stick_x;
+            double clockwise = gamepad1.right_stick_x;
+            clockwise *= sensitivity;
+            //this part of the code controls the mechanum drive
+            double theta = 90;
+            telemetry.addData("Theta", Double.toString(theta));
 
-            /*
-            reset gyro.yaw ---
-
-            robotPower = hypot(joy1.x, joy1.y)
-            robotAngle = atan2(joy1.y, joy1.x) + gyro.yaw // might need an additional offset or flip the sign
-            rightX = joy2.x
-
-            frontLeft = robotPower * cos(robotAngle) + rightX
-            frontRight = robotPower * sin(robotAngle) - rightX
-            backLeft = robotPower * sin(robotAngle) + rightX
-            backRight = robotPower * cos(robotAngle) - rightX
-
-            frontLeftMotor.power(frontLeft)
-            frontRightMotor.power(frontRight)
-            backLeftMotor.power(backLeft)
-            backRightMotor.power(backRight)
-
-            motors.run()
-            */
-            double leftX  =  gamepad1.left_stick_x;
-            double leftY = gamepad1.left_stick_y;
-            double rightX = gamepad1.right_stick_x;
-
-            double robotPower = Math.hypot(leftX, leftY);
-            double robotAngle = Math.atan2(leftY, leftX) + Math.toRadians(45);
-
-            telemetry.addData("Joystick Angle", Math.toDegrees(robotAngle));
-            telemetry.addData("Angles (XYZ)", Math.toDegrees(angles.thirdAngle) + ", " + Math.toDegrees(angles.secondAngle) + ", " + Math.toDegrees(angles.firstAngle));
-
-            double frontLeftPower = robotPower * Math.cos(robotAngle) + rightX;
-            double frontRightPower = robotPower * Math.sin(robotAngle) - rightX;
-            double backLeftPower = robotPower * Math.sin(robotAngle) + rightX;
-            double backRightPower = robotPower * Math.cos(robotAngle) - rightX;
-
-            backLeft.setPower(-backLeftPower * speedMultiplier);
-            backRight.setPower(backRightPower * speedMultiplier);
-            frontLeft.setPower(-frontLeftPower * speedMultiplier);
+            double temp = forward * Math.sin(theta) + right * Math.cos(theta);
+//            double temp = forward * Math.cos(theta) - right * Math.sin(theta);
+//            double temp = forward * Math.sin(theta) - right * Math.cos(theta);
+            right = forward * Math.cos(theta) - right * Math.sin(theta);
+            forward = -temp;
+            //right -= .005;
+            double frontLeftPower = -forward - clockwise - right;
+            double frontRightPower = forward - clockwise - right;
+            double rearLeftPower = -forward - clockwise + right;
+            double rearRightPower = forward - clockwise + right;
+            telemetry.addData("Left Stick X", gamepad1.left_stick_x);
+            telemetry.addData("Left Stick Y", gamepad1.left_stick_y);
+            double max = Math.abs(frontLeftPower);
+            if (Math.abs(frontRightPower) > max) {
+                max=Math.abs(frontRightPower);
+            }
+            if (Math.abs(rearRightPower) > max) {
+                max=Math.abs(rearRightPower);
+            }
+            if (Math.abs(rearLeftPower) > max) {
+                max=Math.abs(rearLeftPower);
+            }
+            if(max>1){
+                frontLeftPower /= max;
+                frontRightPower /= max;
+                rearLeftPower /= max;
+                rearRightPower /= max;
+            }
+            backLeft.setPower(rearLeftPower * speedMultiplier);
+            backRight.setPower(rearRightPower * speedMultiplier);
+            frontLeft.setPower(frontLeftPower * speedMultiplier);
             frontRight.setPower(frontRightPower * speedMultiplier);
 
             checkButtons();
@@ -227,9 +224,9 @@ public class TeleOp2021IMU extends LinearOpMode {
             finger.setPosition(position);
 
             if (shooterOn){
-                shooter.setVelocity(6600);
+                shooter.setPower(power);
             } else {
-                shooter.setVelocity(0);
+                shooter.setPower(0);
             }
             if (intakeOn){
                 intake.setPower(-power);
@@ -240,7 +237,7 @@ public class TeleOp2021IMU extends LinearOpMode {
             idle();
 
             telemetry.addData("Status", "Running");
-            // telemetry.addData("angle", angles.firstAngle);
+            telemetry.addData("angle", angles.firstAngle);
             telemetry.update();
         }
     }

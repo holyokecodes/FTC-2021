@@ -29,6 +29,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.util.ElapsedTime;
 /**
  * This file contains an minimal example of a Linear "OpMode". An OpMode is a 'program' that runs in either
@@ -50,7 +51,7 @@ public class TeleOp2021 extends LinearOpMode {
     private DcMotor frontLeft;
     private DcMotor frontRight;
     private Servo finger;
-    private DcMotor shooter;
+    private DcMotorEx shooter;
     private DcMotor intake;
 
     private BNO055IMU imu;
@@ -98,7 +99,7 @@ public class TeleOp2021 extends LinearOpMode {
         frontRight = hardwareMap.get(DcMotor.class, "frontRight");
 
         finger = hardwareMap.get(Servo.class, "Finger");
-        shooter = hardwareMap.get(DcMotor.class, "Shooter");
+        shooter = hardwareMap.get(DcMotorEx.class, "Shooter");
         intake = hardwareMap.get(DcMotor.class, "Intake");
 
         // Wait for the start button
@@ -144,7 +145,7 @@ public class TeleOp2021 extends LinearOpMode {
             double clockwise = gamepad1.right_stick_x;
             clockwise *= sensitivity;
             //this part of the code controls the mechanum drive
-            double theta = 0;
+            double theta = 90;
             telemetry.addData("Theta", Double.toString(theta));
 
             double temp = forward * Math.sin(theta) + right * Math.cos(theta);
@@ -227,9 +228,9 @@ public class TeleOp2021 extends LinearOpMode {
             finger.setPosition(position);
 
             if (shooterOn){
-                shooter.setPower(power);
+                shooter.setVelocity(6600);
             } else {
-                shooter.setPower(0);
+                shooter.setVelocity(0);
             }
             if (intakeOn){
                 intake.setPower(-power);
