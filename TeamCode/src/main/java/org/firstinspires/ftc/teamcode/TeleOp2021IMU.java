@@ -42,7 +42,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  * Remove a @Disabled the on the next line or two (if present) to add this opmode to the Driver Station OpMode list,
  * or add a @Disabled annotation to prevent this OpMode from being added to the Driver Station
  */
-@TeleOp(name = "Tele-op 2021")
+@TeleOp(name = "Tele-op 2021 IMU")
 public class TeleOp2021IMU extends LinearOpMode {
     //    private Blinker expansion_Hub_2;
     private DcMotor backLeft;
@@ -111,7 +111,7 @@ public class TeleOp2021IMU extends LinearOpMode {
 
         BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
         parameters.mode = BNO055IMU.SensorMode.IMU;
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
+        parameters.angleUnit = BNO055IMU.AngleUnit.RADIANS;
         parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
         parameters.loggingEnabled = false;
 
@@ -138,44 +138,45 @@ public class TeleOp2021IMU extends LinearOpMode {
                 telemetry.addData("Pesise Mode", "Off");
             }
 
-            Orientation angles=imu.getAngularOrientation(AxesReference.INTRINSIC,AxesOrder.ZYX, AngleUnit.DEGREES);
-            double forward = gamepad1.left_stick_y;
-            double right  =  gamepad1.left_stick_x;
-            double clockwise = gamepad1.right_stick_x;
-            clockwise *= sensitivity;
-            //this part of the code controls the mechanum drive
-            double theta = angles.firstAngle;
-            telemetry.addData("Theta", Double.toString(theta));
+            Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
 
-            double temp = forward * Math.cos(theta) + right * Math.sin(theta);
-            right = -forward * Math.sin(theta) + right * Math.sin(theta);
-            forward = -temp;
+            /*
+            reset gyro.yaw ---
 
-            double frontLeftPower = -forward - clockwise - right;
-            double frontRightPower = forward - clockwise - right;
-            double rearLeftPower = -forward - clockwise + right;
-            double rearRightPower = forward - clockwise + right;
-            telemetry.addData("Left Stick X", gamepad1.left_stick_x);
-            telemetry.addData("Left Stick Y", gamepad1.left_stick_y);
-            double max = Math.abs(frontLeftPower);
-            if (Math.abs(frontRightPower) > max) {
-                max=Math.abs(frontRightPower);
-            }
-            if (Math.abs(rearRightPower) > max) {
-                max=Math.abs(rearRightPower);
-            }
-            if (Math.abs(rearLeftPower) > max) {
-                max=Math.abs(rearLeftPower);
-            }
-            if(max>1){
-                frontLeftPower /= max;
-                frontRightPower /= max;
-                rearLeftPower /= max;
-                rearRightPower /= max;
-            }
-            backLeft.setPower(rearLeftPower * speedMultiplier);
-            backRight.setPower(rearRightPower * speedMultiplier);
-            frontLeft.setPower(frontLeftPower * speedMultiplier);
+            robotPower = hypot(joy1.x, joy1.y)
+            robotAngle = atan2(joy1.y, joy1.x) + gyro.yaw // might need an additional offset or flip the sign
+            rightX = joy2.x
+
+            frontLeft = robotPower * cos(robotAngle) + rightX
+            frontRight = robotPower * sin(robotAngle) - rightX
+            backLeft = robotPower * sin(robotAngle) + rightX
+            backRight = robotPower * cos(robotAngle) - rightX
+
+            frontLeftMotor.power(frontLeft)
+            frontRightMotor.power(frontRight)
+            backLeftMotor.power(backLeft)
+            backRightMotor.power(backRight)
+
+            motors.run()
+            */
+            double leftX  =  gamepad1.left_stick_x;
+            double leftY = gamepad1.left_stick_y;
+            double rightX = gamepad1.right_stick_x;
+
+            double robotPower = Math.hypot(leftX, leftY);
+            double robotAngle = Math.atan2(leftY, leftX) + Math.toRadians(45);
+
+            telemetry.addData("Joystick Angle", Math.toDegrees(robotAngle));
+            telemetry.addData("Angles (XYZ)", Math.toDegrees(angles.thirdAngle) + ", " + Math.toDegrees(angles.secondAngle) + ", " + Math.toDegrees(angles.firstAngle));
+
+            double frontLeftPower = robotPower * Math.cos(robotAngle) + rightX;
+            double frontRightPower = robotPower * Math.sin(robotAngle) - rightX;
+            double backLeftPower = robotPower * Math.sin(robotAngle) + rightX;
+            double backRightPower = robotPower * Math.cos(robotAngle) - rightX;
+
+            backLeft.setPower(-backLeftPower * speedMultiplier);
+            backRight.setPower(backRightPower * speedMultiplier);
+            frontLeft.setPower(-frontLeftPower * speedMultiplier);
             frontRight.setPower(frontRightPower * speedMultiplier);
 
             checkButtons();
@@ -238,7 +239,7 @@ public class TeleOp2021IMU extends LinearOpMode {
             idle();
 
             telemetry.addData("Status", "Running");
-            telemetry.addData("angle", angles.firstAngle);
+            // telemetry.addData("angle", angles.firstAngle);
             telemetry.update();
         }
     }
