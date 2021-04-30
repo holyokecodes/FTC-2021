@@ -283,14 +283,14 @@ public class Auto2021Shooter extends LinearOpMode{
                                 .build();
         drivetrain.followTrajectory(BTrajectory2);
         //drivetrain.followTrajectory(BTrajectory);
-        drivetrain.turn(Math.toRadians(135));
+        drivetrain.turn(Math.toRadians(175));
         // turn on the motors to dump the wobble goal
         intake.setPower(-.25);
 
         sleep(600);
         intake.setPower(0);
 
-        drivetrain.turn(Math.toRadians(-145));
+        drivetrain.turn(Math.toRadians(-185));
         drivetrain.followTrajectory(BReturnTrajectory);
         //drivetrain.turn(Math.toRadians(-16));
 
